@@ -1,0 +1,18 @@
+{
+    "name": "lulu/table",
+    "description": "TableDriver",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "siluzhou",
+            "email": "siluzhou_pku@163.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload":{
+        "psr-4":{
+            "Lulu\\": "src"
+        }
+    }
+}
