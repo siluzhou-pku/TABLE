@@ -23,20 +23,7 @@ class Table implements TableInterface {
     ];
 
 
-    public function beginTransaction()
-    {
-        // TODO: Implement beginTransaction() method.
-    }
 
-    public function commit()
-    {
-        // TODO: Implement commit() method.
-    }
-
-    public function rollBack()
-    {
-        // TODO: Implement rollBack() method.
-    }
 
     public function queryCount()
     {
@@ -63,6 +50,15 @@ class Table implements TableInterface {
         // TODO: Implement table() method.
     }
 
+    public function setPrimaryId($str = "")
+    {
+        // TODO: Implement setPrimaryId() method.
+    }
+
+    public function limit()
+    {
+        // TODO: Implement limit() method.
+    }
     public function where()
     {
         // TODO: Implement where() method.
@@ -88,10 +84,7 @@ class Table implements TableInterface {
         // TODO: Implement field() method.
     }
 
-    public function primaryKey()
-    {
-        // TODO: Implement primaryKey() method.
-    }
+
 
     public function reset()
     {

@@ -10,18 +10,7 @@
 namespace Lulu\Table;
 interface TableInterface
 {
-    /**
-     * begin transaction
-     */
-    public function beginTransaction();
-    /**
-     * commit transaction
-     */
-    public function commit();
-    /**
-     * rollback transaction
-     */
-    public function rollBack();
+
     /**
      * return times of accessing database
      */
@@ -41,9 +30,19 @@ interface TableInterface
     public function version();
 
     /**
-     *return $this
+     * set table name
+     *@param string $str
+     *@return $this
      */
-    public function table();
+    public function table($str="");
+
+    /**
+     * set PrimaryId of table
+     *@param string $str
+     *@return $this
+     */
+    public function setPrimaryId($str="");
+
     /**
      *return $this
      */
@@ -67,10 +66,11 @@ interface TableInterface
      *return $this
      */
     public function field();
+
     /**
      *return $this
      */
-    public function primaryKey();
+    public function limit();
 
     /**
      *return $this
