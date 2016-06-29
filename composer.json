@@ -2,6 +2,8 @@
     "name": "lulu/table",
     "description": "TableDriver",
     "license": "MIT",
+    "type": "library",
+    "keywords":["database","table"，"chain operation"],
     "authors": [
         {
             "name": "siluzhou",
@@ -10,11 +12,17 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "lulu/db":"v1.0"
+        "lulu/db":"v1.0",
+        "php" : ">=5.4"
     },
     "autoload":{
         "psr-4":{
             "Lulu\\": "src"
         }
     }
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.0.x-dev"
+        }
+}
 }
