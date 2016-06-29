@@ -14,28 +14,30 @@ Table Driver
 ### Method Summary
 
 	
+- 	
 - Table __construct ([array $config = array()])
 - array all ([int $id = null])
-- void close ()
-- array col ()
+- boolean close ()
+- array col ([int $id = null])
 - boolean/obj delete ([int $id = null])
-- $this field (string/array $in)
-- $this group (string $str)
+- $this field ([string/array $in = null])
+- $this group ([string $str = ""])
 - boolean/obj insert (array $value)
-- $this key (string $str)
+- $this key ([string $str = ""])
 - int lastId ()
-- $this limit (int/string $in1, int $in2)
-- array map ()
-- int/string one ()
-- $this order (string $str)
-- times queryCount ()
+- $this limit ([int/string $in1 = null], [int $in2 = null])
+- array map ([int $id = null])
+- int/string one ([int $id = null])
+- $this order ([string $in1 = ""], [string $in2 = ""])
+- int queryCount ()
 - $this reset ()
-- array row ()
+- array row ([int $id = null])
 - $this setPrimaryId ([string $str = ""])
 - $this table ([string $str = ""])
 - boolean/obj update (array $value, [int $id = null])
-- current version ()
+- string version ()
 - $this where (string/array $in)
+
 
 
 ### Methods
@@ -51,7 +53,7 @@ Table __construct ([array $config = array()])
 
 -    array $config	
 
-#### all (line 241)
+#### all (line 245)
 
 execute SQL statements
 
@@ -68,7 +70,7 @@ array all ([int $id = null])
 TableInterface::all()
   -  execute SQL statements
 
-#### close (line 284)
+#### close (line 292)
 
 close database
 
@@ -83,13 +85,15 @@ boolean close ()
 TableInterface::close()
   -  close database
 
-#### col (line 258)
+#### col (line 264)
 
 execute SQL statements
 
    - access: public
 
-array col ()
+array col ([int $id = null])
+
+   - int $id	
 
 ---
 
@@ -98,7 +102,7 @@ array col ()
 TableInterface::col()
  -   execute SQL statements
 
-#### delete (line 231)
+#### delete (line 235)
 
 delete database
 
@@ -115,7 +119,7 @@ boolean/obj delete ([int $id = null])
 TableInterface::delete()
    - delete database
 
-#### field (line 180)
+#### field (line 184)
 
 identity the field to be operated
 
@@ -181,7 +185,7 @@ $this key (string $str)
 TableInterface::key()
    - specify an index(only valid for function all())
 
-#### lastId (line 109)
+#### lastId (line 111)
 
 return the last operating id
 
@@ -196,16 +200,16 @@ void lastId ()
 TableInterface::lastId()
   -  return the last operate ID
 
-#### limit (line 191)
+ #### limit (line 195)
 
 specify the number of records
 
   -  access: public
 
-$this limit (int/string $in1, int $in2)
+$this limit ([int/string $in1 = null], [int $in2 = null])
 
-  -  int/string $in1	
-  -  int $in2	
+   - int/string $in1	
+   - int $in2	
 
 ---
 
@@ -214,25 +218,35 @@ $this limit (int/string $in1, int $in2)
 TableInterface::limit()
   -  specify the number of records
 
-#### map (line 275)
+#### map (line 283)
 
 execute SQL statements
 
    - access: public
 
-array map ()
-Implementation of:
+ array map ([int $id = null])
+
+   - int $id	
+
+---
+
+*Implementation of:*
 
 TableInterface::map()
   -  execute SQL statements
 
-#### one (line 266)
+#### one (line 273)
 
 execute SQL statements
 
   -  access: public
 
-int/string one ()
+
+
+int/string one ([int $id = null])
+
+  -  int $id	
+
 
 ---
 
@@ -241,15 +255,17 @@ int/string one ()
 TableInterface::one()
   -  execute SQL statements
 
-#### order (line 150)
+#### order (line 153)
 
 specify the sort order or direction
 
   -  access: public
 
-$this order (string $str)
+ $this order ([string $in1 = ""], [string $in2 = ""])
 
-  -  string $str	
+   - string $in1	
+  -  string $in2	
+	
 
 ---
 
@@ -258,18 +274,19 @@ $this order (string $str)
 TableInterface::order()
   -  specify the sort order or direction
 
-#### queryCount (line 101)
+#### queryCount (line 102)
 
 return times of accessing database
 
  -   access: public
 
-void queryCount ()
+int queryCount ()
 Implementation of:
 
 TableInterface::queryCount()
 
-reset (line 200)
+return times of accessing database
+#### reset (line 204)
 
 reset all conditions
 
@@ -285,13 +302,16 @@ $this reset ()
 TableInterface::reset()
   -  reset all conditions
 
-row (line 250)
+#### row (line 255)
 
 execute SQL statements
 
    - access: public
 
-array row ()
+ array row ([int $id = null])
+
+   - int $id	
+
 
 
 ---

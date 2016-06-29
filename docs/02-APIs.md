@@ -17,27 +17,29 @@ Dbdriver Interface
 	
 	
 
+	
 - array all ([int $id = null])
 - void close ()
-- array col ()
+- array col ([int $id = null])
 - boolean/obj delete ([int $id = null])
-- $this field (string/array $in)
-- $this group (string $str)
+- $this field ([string/array $in = null])
+- $this group ([string $str = ""])
 - boolean/obj insert (array $value)
-- $this key (string $str)
+- $this key ([string $str = ''])
 - int lastId ()
-- $this limit (int/string $in1, int $in2)
-- array map ()
-- int/string one ()
-- $this order (string $str)
-- times queryCount ()
+- $this limit ([int/string $in1 = null], [int $in2 = null])
+- array map ([int $id = null])
+- int/string one ([int $id = null])
+- $this order ([string $in1 = ""], [string $in2 = ""])
+- int queryCount ()
 - $this reset ()
-- array row ()
+- array row ([int $id = null])
 - $this setPrimaryId ([string $str = ""])
 - $this table ([string $str = ""])
 - boolean/obj update (array $value, [int $id = null])
-- current version ()
+- string version ()
 - $this where (string/array $in)
+
 
 
 
@@ -45,31 +47,35 @@ Dbdriver Interface
 
 
 
-#### all (line 126)
+
+#### all (line 129)
 
 execute SQL statements
 
-   - access: public
+  -  access: public
 
 array all ([int $id = null])
 
-   - int $id	
+  -  int $id	
 
-#### close (line 26)
+#### close (line 27)
 
 close database
 
-  -  access: public
+   - access: public
 
 void close ()
-#### col (line 138)
+#### col (line 143)
 
 execute SQL statements
 
  -   access: public
 
-array col ()
-#### delete (line 119)
+array col ([int $id = null])
+
+ -   int $id	
+
+#### delete (line 122)
 
 delete database
 
@@ -77,29 +83,29 @@ delete database
 
 boolean/obj delete ([int $id = null])
 
-  -  int $id	
+ -   int $id	
 
-#### field (line 81)
+#### field (line 84)
 
 identity the field to be operated
 
- -   access: public
+  -  access: public
 
-$this field (string/array $in)
+$this field ([string/array $in = null])
 
   -  string/array $in	
 
-#### group (line 74)
+#### group (line 77)
 
 group data
 
   -  access: public
 
-$this group (string $str)
+$this group ([string $str = ""])
 
-   - string $str	
+  -  string $str	
 
-#### insert (line 112)
+#### insert (line 115)
 
 insert database
 
@@ -107,101 +113,112 @@ insert database
 
 boolean/obj insert (array $value)
 
-  -  array $value	
+   - array $value	
 
-#### key (line 66)
+#### key (line 69)
 
 specify an index(only valid for function all())
 
- -   access: public
+  -  access: public
 
-$this key (string $str)
+$this key ([string $str = ''])
 
-  -  string $str	
+   - string $str	
 
-#### lastId (line 22)
+#### lastId (line 23)
 
 return the last operate ID
 
   -  access: public
 
 int lastId ()
-#### limit (line 89)
+#### limit (line 92)
 
 specify the number of records
 
-   - access: public
+  -  access: public
 
-$this limit (int/string $in1, int $in2)
+$this limit ([int/string $in1 = null], [int $in2 = null])
 
   -  int/string $in1	
   -  int $in2	
 
-#### map (line 148)
+#### map (line 155)
 
 execute SQL statements
 
   -  access: public
 
-array map ()
-#### one (line 143)
+array map ([int $id = null])
+
+  -  int $id	
+
+#### one (line 149)
 
 execute SQL statements
 
   -  access: public
 
-int/string one ()
-#### order (line 59)
+int/string one ([int $id = null])
+
+  -  int $id	
+
+#### order (line 62)
 
 specify the sort order or direction
 
    - access: public
 
-$this order (string $str)
+$this order ([string $in1 = ""], [string $in2 = ""])
 
-   - string $str	
+   - string $in1	
+   - string $in2	
 
-queryCount (line 17)
+#### queryCount (line 18)
 
-  -  return: of accessing database
-  -  access: public
-
-times queryCount ()
-#### reset (line 95)
-
-reset all conditions
+return times of accessing database
 
    - access: public
 
+int queryCount ()
+reset (line 98)
+
+reset all conditions
+
+  -  access: public
+
 $this reset ()
-#### row (line 132)
+row (line 136)
 
 execute SQL statements
 
-  -  access: public
+   - access: public
 
-array row ()
-#### setPrimaryId (line 45)
+array row ([int $id = null])
+
+  -  int $id	
+
+#### setPrimaryId (line 47)
 
 set PrimaryId of table
 
-  -  access: public
+ -   access: public
 
 $this setPrimaryId ([string $str = ""])
 
   -  string $str	
 
-#### table (line 38)
+#### table (line 40)
 
 set table name
 
-   - access: public
+  -  access: public
 
 $this table ([string $str = ""])
 
-   - string $str	
+  -  string $str	
 
-#### update (line 104)
+#### update (line 107)
 
 update database
 
@@ -210,20 +227,22 @@ update database
 boolean/obj update (array $value, [int $id = null])
 
   -  array $value	
-  -  int $id	
+ -   int $id	
 
-version (line 31)
+#### version (line 33)
 
-  -  return: version of class db
+return current version
+
   -  access: public
 
-current version ()
-#### where (line 52)
+string version ()
+#### where (line 54)
 
 set data selection
 
-   - access: public
+  -  access: public
 
 $this where (string/array $in)
 
    - string/array $in	
+
