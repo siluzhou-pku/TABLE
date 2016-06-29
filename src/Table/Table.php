@@ -93,7 +93,7 @@ class Table implements TableInterface {
      */
     public function __construct($config = array()){
         $this->_config = $config;
-        $this->db=new \Lulu\Db\Db($config);
+        $this->db=new Lulu\Db\Db($config);//参考namespace文档，加上'\'相当于绝对路径，而不加\相当于相对路径，在当前路径往下进行寻找
     }
     /**
      * return times of accessing database

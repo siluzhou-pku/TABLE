@@ -1,12 +1,12 @@
-# Details of DBDriver
+# Details of Table
 
-本文档将提供DBDriver详细的技术细节
+本文档将提供Table详细的技术细节
 
-## Root interface DbInterface
+## Root interface TableInterface
 
 - [DbInterface](https://github.com/siluzhou/DBDriver/blob/master/docs/02-APIs.md)
 
-## Root class Db
+## Root class Table
 
 - [Db](https://github.com/siluzhou/DBDriver/blob/master/docs/04-DB.md) (implements [DbInterface](https://github.com/siluzhou/DBDriver/blob/master/docs/02-APIs.md))
 

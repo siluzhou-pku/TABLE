@@ -1,6 +1,6 @@
 # Using DBDriver
 
-本文档将提供DBDriver的详细使用方法以及相应的使用结果。以lut数据库中的user为例
+本文档将提供Table对象的详细使用方法以及相应的使用结果。以lut数据库中的user为例
 
 表结构与插入语句：
 
@@ -57,6 +57,7 @@ configs信息：
 
 ```
 $config = [
+	'user'          => 'userId',            //操作的表与主键
     'hostname'      => '127.0.0.1',         //服务器地址
     'port'          => '3306',              //端口
     'username'      => 'root',              //用户名
@@ -71,160 +72,6 @@ $config = [
 
 ## Basic Usage
 
-### 实例化一个数据驱动：
-	$db = new Lulu\db\db($config);
+### 实例化一个表对象：
+	$table = new Lulu\Table\Table($config);
 
-### getAll
-```
-$sql = "select * from user WHERE userId<3";
-$res = $db->getAll($sql);
-```
-getAll函数以二维数组的形式返回sql语句读取的所有值
-
-```
-Array
-(
-    [0] => Array
-        (
-            [userId] => 1
-            [login] => irones
-            [password] => 12345678
-            [email] => 
-            [mobile] => 13673764379
-            [accessToken] => accessToken
-            [createAt] => 
-            [updateAt] => 1458702747
-            [expire] => 0
-            [nickName] => wwwww
-            [trueName] => 4324
-            [birthday] => 2014-01-10
-            [gender] => 女
-            [signer] => 0
-            [zone] => 0
-            [addr] => 
-            [gravatar] => http://api.so/U/v/201603/11/0a05b10f77d53c0a6cd36068a19da630.txt
-            [height] => 30cm
-            [active] => 1
-            [sort] => 0
-            [des] => 123
-        )
-
-    [1] => Array
-        (
-            [userId] => 2
-            [login] => 13673764379
-            [password] => 25F9E794323B453885F5181F1B624D0B
-            [email] => 
-            [mobile] => 13673764379
-            [accessToken] => accessToken
-            [createAt] => 2016-04-14 10:47:54
-            [updateAt] => 
-            [expire] => 0
-            [nickName] => 
-            [trueName] => 
-            [birthday] => 
-            [gender] => 
-            [signer] => 
-            [zone] => 
-            [addr] => 
-            [gravatar] => http://api.guangjuli.net/U/v/201605/06/049c6cb66adff88f9a2fc308ae72b37f.png
-            [height] => 
-            [active] => 0
-            [sort] => 0
-            [des] => 
-        )
-
-)
-```
-
-### getRow
-
-```
-$sql = "select * from user ";
-$res = $db->getRow($sql);
-```
-getRow函数以一维数组的形式返回sql语句读取的所有值的第一行
-
-```
-Array
-(
-    [userId] => 1
-    [login] => irones
-    [password] => 12345678
-    [email] => 
-    [mobile] => 13673764379
-    [accessToken] => accessToken
-    [createAt] => 
-    [updateAt] => 1458702747
-    [expire] => 0
-    [nickName] => wwwww
-    [trueName] => 4324
-    [birthday] => 2014-01-10
-    [gender] => 女
-    [signer] => 0
-    [zone] => 0
-    [addr] => 
-    [gravatar] => http://api.so/U/v/201603/11/0a05b10f77d53c0a6cd36068a19da630.txt
-    [height] => 30cm
-    [active] => 1
-    [sort] => 0
-    [des] => 123
-)
-```
-
-### getCol
-```
-$sql = "select login from user ";
-$res = $db->getCol($sql);
-```
-getCol函数以一维数组的形式返回sql语句读取的所有值的第一列
-
-```
-Array
-(
-    [0] => irones
-    [1] => 13673764379
-    [2] => 13552099798
-    [3] => 18801215774
-    [4] => 13716718251
-    [5] => 18630112805
-    [6] => 18500299812
-    [7] => 18600768064
-    [8] => 13811069199
-    [9] => 13693162698
-)
-```
-
-### getMap
-```
-$sql = "select login,password from user ";
-$res = $db->getMap($sql);
-```
-getMap函数以一维数组的形式返回sql语句读取所有值的前两列映射
-
-```
-Array
-(
-    [irones] => 12345678
-    [13673764379] => 25F9E794323B453885F5181F1B624D0B
-    [13552099798] => E10ADC3949BA59ABBE56E057F20F883E
-    [18801215774] => 819B85FBE2D25B5B8A0EF2A440F41C45
-    [13716718251] => 25F9E794323B453885F5181F1B624D0B
-    [18630112805] => 4561B3CC2AA6037CE5C01A7C11893B8F
-    [18500299812] => 5FFB991C0D11F673DDEB26B493D9DE52
-    [18600768064] => 25f9e794323b453885f5181f1b624d0b
-    [13811069199] => E10ADC3949BA59ABBE56E057F20F883E
-    [13693162698] => e10adc3949ba59abbe56e057f20f883e
-)
-```
-
-### getOne
-```
-$sql = "select truename from user where userId=1 ";
-$res = $db->getOne($sql);
-```
-getOne函数以数值的形式返回sql语句读取值的第一个数
-
-```
-4324
-```

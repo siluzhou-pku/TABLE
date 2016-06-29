@@ -8,198 +8,222 @@
 Dbdriver Interface
 
 - author: Silu Zhou <siluzhou_pku@163.com>
-- version: 3.3
 
-*Located in /DBDriver/DbInterface.php (line 17)*
+
+*Located in /TableInterface.php (line 11) *
 
 ### Method Summary
 
 	
 	
-- void beginTransaction ()
+
+- array all ([int $id = null])
 - void close ()
-- void commit ()
-- boolean/obj delete (string $table, string $where)
-- void getAll ( $sql,  $field)
-- void getCol (string $sql)
-- void getMap (string $sql)
-- void getOne (string $sql)
-- void getRow (string $sql)
-- boolean/obj insert (string $table, array $values)
-- void lastInsert ()
-- void query (string $sql)
-- void queryCount ()
-- void rollBack ()
-- void update (string $table, array $values, string $where)
-- void version ()
+- array col ()
+- boolean/obj delete ([int $id = null])
+- $this field (string/array $in)
+- $this group (string $str)
+- boolean/obj insert (array $value)
+- $this key (string $str)
+- int lastId ()
+- $this limit (int/string $in1, int $in2)
+- array map ()
+- int/string one ()
+- $this order (string $str)
+- times queryCount ()
+- $this reset ()
+- array row ()
+- $this setPrimaryId ([string $str = ""])
+- $this table ([string $str = ""])
+- boolean/obj update (array $value, [int $id = null])
+- current version ()
+- $this where (string/array $in)
+
 
 
 ### Methods
 
 
 
-#### beginTransaction (line 22)
+#### all (line 126)
 
-begin transaction
+execute SQL statements
 
    - access: public
 
-void beginTransaction ()
+array all ([int $id = null])
 
+   - int $id	
 
-#### close (line 101)
+#### close (line 26)
 
 close database
 
-- access: public
+  -  access: public
 
 void close ()
-
-
-#### commit (line 26)
-
-commit transaction
-
-- access: public
-
-void commit ()
-
-
-
-#### delete (line 67)
-
-delete database
-
-   - access: public
-
-boolean/obj delete (string $table, string $where)
-
-  -  string $table	
-  -  string $where	
-
-
-
-#### getAll (line 71)
+#### col (line 138)
 
 execute SQL statements
-
-- access: public
-
- void getAll ( $sql,  $field)
-
-   - $sql	
-   - $field	
-
-
-#### getCol (line 84)
-
-execute SQL statements
-
-- access: public
-
-void getCol ( $sql)
-
-- $sql	
-
-
-#### getMap (line 90)
-
-execute SQL statements
-
-- access: public
-
-void getMap ( $sql)
-
-- $sql	
-
-#### getOne (line 96)
-
-execute SQL statements
-
-- access: public
-
-void getOne ( $sql)
-
-- $sql	
-
-#### getRow (line 78)
-
-execute SQL statements
-
-- access: public
-
-void getRow ( $sql)
-
-- $sql	
-
-
-#### insert (line 58)
-
-insert database
 
  -   access: public
 
-boolean/obj insert (string $table, array $values)
+array col ()
+#### delete (line 119)
 
-  -  string $table	
-  -  array $values	
+delete database
 
+  -  access: public
 
+boolean/obj delete ([int $id = null])
 
-#### lastInsert (line 38)
+  -  int $id	
 
-return the last inserted ID
+#### field (line 81)
+
+identity the field to be operated
+
+ -   access: public
+
+$this field (string/array $in)
+
+  -  string/array $in	
+
+#### group (line 74)
+
+group data
+
+  -  access: public
+
+$this group (string $str)
+
+   - string $str	
+
+#### insert (line 112)
+
+insert database
+
+  -  access: public
+
+boolean/obj insert (array $value)
+
+  -  array $value	
+
+#### key (line 66)
+
+specify an index(only valid for function all())
+
+ -   access: public
+
+$this key (string $str)
+
+  -  string $str	
+
+#### lastId (line 22)
+
+return the last operate ID
+
+  -  access: public
+
+int lastId ()
+#### limit (line 89)
+
+specify the number of records
 
    - access: public
 
-void lastInsert ()
+$this limit (int/string $in1, int $in2)
 
+  -  int/string $in1	
+  -  int $in2	
 
+#### map (line 148)
 
-#### query (line 44)
+execute SQL statements
 
-operate database
+  -  access: public
 
-   - access: public
+array map ()
+#### one (line 143)
 
-void query (string $sql)
+execute SQL statements
 
-   - string $sql	
+  -  access: public
 
+int/string one ()
+#### order (line 59)
 
-#### queryCount (line 34)
-
-return times of accessing database
-
-   - access: public
-
-void queryCount ()
-#### rollBack (line 30)
-
-rollback transaction
+specify the sort order or direction
 
    - access: public
 
-void rollBack ()
+$this order (string $str)
 
+   - string $str	
 
-#### update (line 51)
+queryCount (line 17)
+
+  -  return: of accessing database
+  -  access: public
+
+times queryCount ()
+#### reset (line 95)
+
+reset all conditions
+
+   - access: public
+
+$this reset ()
+#### row (line 132)
+
+execute SQL statements
+
+  -  access: public
+
+array row ()
+#### setPrimaryId (line 45)
+
+set PrimaryId of table
+
+  -  access: public
+
+$this setPrimaryId ([string $str = ""])
+
+  -  string $str	
+
+#### table (line 38)
+
+set table name
+
+   - access: public
+
+$this table ([string $str = ""])
+
+   - string $str	
+
+#### update (line 104)
 
 update database
 
   -  access: public
 
-void update (string $table, array $values, string $where)
+boolean/obj update (array $value, [int $id = null])
 
-  -  string $table	
-  -  array $values	
-  -  string $where	
+  -  array $value	
+  -  int $id	
 
+version (line 31)
 
-#### version (line 106)
-
-return current version of class db
-
+  -  return: version of class db
   -  access: public
 
-void version ()
+current version ()
+#### where (line 52)
+
+set data selection
+
+   - access: public
+
+$this where (string/array $in)
+
+   - string/array $in	

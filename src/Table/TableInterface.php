@@ -16,7 +16,8 @@ interface TableInterface
      */
     public function queryCount();
     /**
-     * @return the last operate ID
+     * return the last operate ID
+     * @return int
      */
     public function lastId();
     /**
