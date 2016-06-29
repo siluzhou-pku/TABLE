@@ -12,7 +12,8 @@ interface TableInterface
 {
 
     /**
-     * @return times of accessing database
+     * return times of accessing database
+     * @return int
      */
     public function queryCount();
     /**
@@ -26,7 +27,8 @@ interface TableInterface
     public function close();
 
     /**
-     * @return current version of class db
+     * return current version
+     * @return string
      */
     public function version();
 
@@ -53,17 +55,18 @@ interface TableInterface
 
     /**
      *specify the sort order or direction
-     * @param string $str
+     * @param string $in1
+     * @param string $in2
      * @return $this
      */
-    public function order($str);
+    public function order($in1="",$in2="");
 
     /**
      * specify an index(only valid for function all())
      * @param string $str
      * @return $this
      */
-    public function key($str);
+    public function key($str='');
 
 
     /**
@@ -71,14 +74,14 @@ interface TableInterface
      * @param string $str
      * @return $this
      */
-    public function group($str);
+    public function group($str="");
 
     /**
      * identity the field to be operated
      * @param string/array $in
      * @return $this
      */
-    public function field($in);
+    public function field($in=null);
 
     /**
      * specify the number of records
@@ -86,7 +89,7 @@ interface TableInterface
      * @param int $in2
      * @return $this
      */
-    public function limit($in1,$in2);
+    public function limit($in1=null,$in2=null);
 
     /**
      * reset all conditions
@@ -127,25 +130,29 @@ interface TableInterface
 
     /**
      *execute SQL statements
+     * @param int $id
      * @return array
      */
-    public function row();
+    public function row($id=null);
 
     /**
      *execute SQL statements
+     * @param int $id
      * @return array
      */
-    public function col();
+    public function col($id=null);
     /**
      *execute SQL statements
+     * @param int $id
      * @return int/string
      */
-    public function one();
+    public function one($id=null);
     /**
      *execute SQL statements
+     * @param int $id
      * @return array
      */
-    public function map();
+    public function map($id=null);
 
 
 

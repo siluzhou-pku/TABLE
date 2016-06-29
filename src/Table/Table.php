@@ -93,10 +93,11 @@ class Table implements TableInterface {
      */
     public function __construct($config = array()){
         $this->_config = $config;
-        $this->db=new Lulu\Db\Db($config);//参考namespace文档，加上'\'相当于绝对路径，而不加\相当于相对路径，在当前路径往下进行寻找
+        $this->db=new \Lulu\Db\Db($config);//参考namespace文档，加上'\'相当于绝对路径，而不加\相当于相对路径，在当前路径往下进行寻找
     }
     /**
      * return times of accessing database
+     * @return int
      */
     public function queryCount()
     {
@@ -105,6 +106,7 @@ class Table implements TableInterface {
     }
     /**
      * return the last operating id
+     * @return int
      */
     public function lastId()
     {
@@ -144,10 +146,11 @@ class Table implements TableInterface {
 
     /**
      *specify the sort order or direction
-     * @param string $str
+     * @param string $in1
+     * @param string $in2
      * @return $this
      */
-    public function order($str)
+    public function order($in1="",$in2="")
     {
         // TODO: Implement order() method.
     }
@@ -157,19 +160,20 @@ class Table implements TableInterface {
      * @param string $str
      * @return $this
      */
-    public function key($str)
+    public function key($str="")
     {
         // TODO: Implement key() method.
     }
+
 
     /**
      * group data
      * @param string $str
      * @return $this
      */
-    public function group($str)
+    public function group($str="")
     {
-        // TODO: Implement group() method.
+
     }
 
     /**
@@ -177,7 +181,7 @@ class Table implements TableInterface {
      * @param string/array $in
      * @return $this
      */
-    public function field($in)
+    public function field($in=null)
     {
         // TODO: Implement field() method.
     }
@@ -188,7 +192,7 @@ class Table implements TableInterface {
      * @param int $in2
      * @return $this
      */
-    public function limit($in1, $in2)
+    public function limit($in1=null, $in2=null)
     {
         // TODO: Implement limit() method.
     }
@@ -245,34 +249,38 @@ class Table implements TableInterface {
 
     /**
      *execute SQL statements
+     * @param int $id
      * @return array
      */
-    public function row()
+    public function row($id = null)
     {
         // TODO: Implement row() method.
     }
     /**
      *execute SQL statements
+     * @param int $id
      * @return array
      */
-    public function col()
+    public function col($id = null)
     {
         // TODO: Implement col() method.
     }
     /**
      *execute SQL statements
+     * @param int $id
      * @return int/string
      */
-    public function one()
+    public function one($id = null)
     {
         // TODO: Implement one() method.
     }
 
     /**
      *execute SQL statements
+     * @param int $id
      * @return array
      */
-    public function map()
+    public function map($id = null)
     {
         // TODO: Implement map() method.
     }
