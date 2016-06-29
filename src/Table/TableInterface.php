@@ -12,11 +12,11 @@ interface TableInterface
 {
 
     /**
-     * return times of accessing database
+     * @return times of accessing database
      */
     public function queryCount();
     /**
-     * return the last operate ID
+     * @return the last operate ID
      */
     public function lastId();
     /**
@@ -25,103 +25,124 @@ interface TableInterface
     public function close();
 
     /**
-     *return current version of class db
+     * @return current version of class db
      */
     public function version();
 
     /**
      * set table name
-     *@param string $str
-     *@return $this
+     * @param string $str
+     * @return $this
      */
     public function table($str="");
 
     /**
      * set PrimaryId of table
-     *@param string $str
-     *@return $this
+     * @param string $str
+     * @return $this
      */
     public function setPrimaryId($str="");
 
     /**
-     *return $this
+     * set data selection
+     * @param  string/array $in
+     * @return $this
      */
-    public function where();
+    public function where($in);
 
     /**
-     *return $this
+     *specify the sort order or direction
+     * @param string $str
+     * @return $this
      */
-    public function order();
+    public function order($str);
 
     /**
-     *return $this
+     * specify an index(only valid for function all())
+     * @param string $str
+     * @return $this
      */
-    public function key();
-    /**
-     *return $this
-     */
-    public function group();
+    public function key($str);
+
 
     /**
-     *return $this
+     * group data
+     * @param string $str
+     * @return $this
      */
-    public function field();
+    public function group($str);
 
     /**
-     *return $this
+     * identity the field to be operated
+     * @param string/array $in
+     * @return $this
      */
-    public function limit();
+    public function field($in);
 
     /**
-     *return $this
+     * specify the number of records
+     * @param int/string $in1
+     * @param int $in2
+     * @return $this
+     */
+    public function limit($in1,$in2);
+
+    /**
+     * reset all conditions
+     * @return $this
      */
     public function reset();
 
-    /**
-     * operate database
-     */
-    public function query();
+
     /**
      * update database
-     */
-    public function update();
-    /**
-     * insert database
+     * @param array $value
+     * @param int $id
      * @return boolean/obj
      */
-    public function insert();
+    public function update($value,$id=null);
+
+
+    /**
+     * insert database
+     * @param array $value
+     * @return boolean/obj
+     */
+    public function insert($value);
 
     /**
      * delete database
-     *
+     * @param int $id
      * @return boolean/obj
      */
-    public function delete();
+    public function delete($id=null);
 
     /**
      *execute SQL statements
-     *
+     * @param int $id
+     * @return array
      */
-    public function all();
+    public function all($id=null);
+
     /**
      *execute SQL statements
-     *
+     * @return array
      */
     public function row();
 
     /**
      *execute SQL statements
-     *
+     * @return array
      */
     public function col();
     /**
      *execute SQL statements
-     *
+     * @return int/string
      */
     public function one();
     /**
      *execute SQL statements
-     *
+     * @return array
      */
     public function map();
 

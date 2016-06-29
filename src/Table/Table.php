@@ -11,41 +11,118 @@
 namespace Lulu\Table;
 
 class Table implements TableInterface {
+
+    /**
+     * config array
+     * @access private
+     * @var array
+     */
+    private $_config  = array();    //入口参数
+
+    /**
+     * db object
+     * @access private
+     * @var object
+     */
+    private $db = null;
+    /**
+     * times of accessing database(only write)
+     * @access private
+     * @var int
+     */
+    private $querycount=0;
+
+    /**
+     * current version of class Db
+     * @access private
+     * @var string
+     */
+    private $version = "1.0";
+
+    /**
+     * the time threshold to how long the query must run in number of seconds to be considered a "slow query. "
+     * defined in $_config
+     * @access private
+     * @var float
+     */
+    private $slowquery  = 0;
+
+    /**
+     * True to connect database while initialization; otherwise, false
+     * defined in $_config
+     * @access private
+     * @var boolean
+     */
+    private $pconnect=0;
+
+    /**
+     * True to suppress all error or warning messages; otherwise, false
+     * defined in $_config
+     * @access private
+     * @var boolean
+     */
+    private $quiet=0;
+
+
+
+    /**
+     * information of table
+     * @access private
+     * @var array
+     */
     private $table= [
-        "table1"=>"",       //设置表名
+        "name"=>"",       //设置表名
         "primaryId"=>"",    //手动设定主键
-        "field"=>"",        //* || username,groupid || ['username','groupid']
+    ];
+    /**
+     * condition of table
+     * @access private
+     * @var array
+     */
+    private $condition=[
+        "field"=>"",        //* || username,group id || ['username','groupid']
         "where"=>"",        //1 || username==1 || ['username'=>'irones','groupid'=>1]
         "limit"=>"",        // 100 || 10,10
         "order"=>"",        //id desc
-        "group"=>"",        //groupid
+        "group"=>"",        //group id
         "key"=>""           //对all查询有用
     ];
 
 
-
-
+    /**
+     * return times of accessing database
+     */
     public function queryCount()
     {
-        // TODO: Implement queryCount() method.
+        return $this->querycount;
+
     }
 
     public function lastId()
     {
         // TODO: Implement lastId() method.
     }
-
+    /**
+     * close database
+     * @access public
+     * @return boolean
+     */
     public function close()
     {
-        // TODO: Implement close() method.
+        $this->db = null;
+        return true;
     }
 
-    public function version()
-    {
-        // TODO: Implement version() method.
+    /**
+     * return the current version of class db;
+     * @access public
+     * @return string
+     */
+    public function version(){
+        return $this->version;
     }
 
-    public function table()
+    public function table($str = "")
     {
         // TODO: Implement table() method.
     }
@@ -55,63 +132,57 @@ class Table implements TableInterface {
         // TODO: Implement setPrimaryId() method.
     }
 
-    public function limit()
-    {
-        // TODO: Implement limit() method.
-    }
-    public function where()
+    public function where($in)
     {
         // TODO: Implement where() method.
     }
 
-    public function order()
+    public function order($str)
     {
         // TODO: Implement order() method.
     }
 
-    public function key()
+    public function key($str)
     {
         // TODO: Implement key() method.
     }
 
-    public function group()
+    public function group($str)
     {
         // TODO: Implement group() method.
     }
 
-    public function field()
+    public function field($in)
     {
         // TODO: Implement field() method.
     }
 
-
+    public function limit($in1, $in2)
+    {
+        // TODO: Implement limit() method.
+    }
 
     public function reset()
     {
         // TODO: Implement reset() method.
     }
 
-    public function query()
-    {
-        // TODO: Implement query() method.
-    }
-
-    public function update()
+    public function update($value, $id = null)
     {
         // TODO: Implement update() method.
     }
 
-    public function insert()
+    public function insert($value)
     {
         // TODO: Implement insert() method.
     }
 
-    public function delete()
+    public function delete($id = null)
     {
         // TODO: Implement delete() method.
     }
 
-    public function all()
+    public function all($id = null)
     {
         // TODO: Implement all() method.
     }
@@ -135,4 +206,6 @@ class Table implements TableInterface {
     {
         // TODO: Implement map() method.
     }
+
+
 }
