@@ -49,9 +49,9 @@ $config = [
     $table = new Lulu\db\db($config);
 
 ## Documentation
-- [Usages](https://github.com/siluzhou/DBDriver/blob/master/docs/01-usage.md)
-- [APIs]( https://github.com/siluzhou/DBDriver/blob/master/docs/02-APIs.md )
-- [Details](https://github.com/siluzhou/DBDriver/blob/master/docs/03-Details.md)
+- [Usages](https://github.com/siluzhou/TABLE/blob/master/docs/01-usage.md)
+- [APIs](https://github.com/siluzhou/TABLE/edit/master/docs/02-APIs.md)
+- [Details](https://github.com/siluzhou/TABLE/blob/master/docs/03-Details.md)
 
 ## License
 
