@@ -4,11 +4,11 @@
 
 ## Root interface TableInterface
 
-- [DbInterface](https://github.com/siluzhou/DBDriver/blob/master/docs/02-APIs.md)
+- [TableInterface](https://github.com/siluzhou/Table/blob/master/docs/02-APIs.md)
 
 ## Root class Table
 
-- [Db](https://github.com/siluzhou/DBDriver/blob/master/docs/04-DB.md) (implements [DbInterface](https://github.com/siluzhou/DBDriver/blob/master/docs/02-APIs.md))
+- [Table](https://github.com/siluzhou/Table/blob/master/docs/04-Table.md) (implements [TableInterface](https://github.com/siluzhou/Table/blob/master/docs/02-APIs.md))
 
 
 
