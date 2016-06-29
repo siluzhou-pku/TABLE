@@ -46,7 +46,10 @@ $config = [
 ## Basic Usage
 
     include("../vendor/autoload.php");
-    $table = new Lulu\db\db($config);
+    $tb = new Lulu\Table\Table($config);
+    $tb->table('user')->setPrimary('uid')->key('ulogin')->order('id desc')->group('groupid')->limit(1000)->all();             
+    $tb->reset();
+    $tb->update($value,1);//对主键为1的数据进行更新
 
 ## Documentation
 - [Usages](https://github.com/siluzhou/TABLE/blob/master/docs/01-usage.md)
