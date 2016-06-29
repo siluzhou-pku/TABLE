@@ -20,7 +20,7 @@ to use the library.
 
 ## Install
 
-Install Lulu\db using Composer.
+Install Lulu\Table using Composer.
 
     $ composer require lulu/table
 
