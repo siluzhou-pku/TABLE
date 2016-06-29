@@ -44,13 +44,13 @@ $config = [
 ```
 
 ## Basic Usage
-
+```
     include("../vendor/autoload.php");
-    $tb = new Lulu\Table\Table($config);
-    $tb->table('user')->setPrimary('uid')->key('ulogin')->order('id desc')->group('groupid')->limit(1000)->all();             
-    $tb->reset();
-    $tb->update($value,1);//对主键为1的数据进行更新
-
+    $user = new Lulu\Table\Table($config);
+    $user->table('user')->setPrimary('uid')->key('ulogin')->order('id desc')->group('groupid')->limit(1000)->all();           
+    $user->reset();
+    $user->update($value,1);//对主键为1的数据进行更新
+```
 ## Documentation
 - [Usages](https://github.com/siluzhou/TABLE/blob/master/docs/01-usage.md)
 - [APIs](https://github.com/siluzhou/TABLE/edit/master/docs/02-APIs.md)
