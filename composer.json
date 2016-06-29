@@ -10,7 +10,7 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "lulu/db":">=1.0"
+        "lulu/db":"v1.0"
     },
     "autoload":{
         "psr-4":{

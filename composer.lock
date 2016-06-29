@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c8b1168e6c5a09c69a96073435645a60",
-    "content-hash": "613ade63410ee09a1da2d7bba7eef2c3",
+    "hash": "1e041b1af6f2a0014d80decf1aab0752",
+    "content-hash": "ff58d15e92c7f59b1f713ded0f3b20fd",
     "packages": [
         {
             "name": "lulu/db",
-            "version": "dev-master",
+            "version": "v1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/siluzhou/DBDriver.git",
-                "reference": "5a4b72fbc39c6a0906c27d86902118dbe50f80c4"
+                "reference": "9a3691325549ea46fd6872758ae8c41de8e7210b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/siluzhou/DBDriver/zipball/5a4b72fbc39c6a0906c27d86902118dbe50f80c4",
-                "reference": "5a4b72fbc39c6a0906c27d86902118dbe50f80c4",
+                "url": "https://api.github.com/repos/siluzhou/DBDriver/zipball/9a3691325549ea46fd6872758ae8c41de8e7210b",
+                "reference": "9a3691325549ea46fd6872758ae8c41de8e7210b",
                 "shasum": ""
             },
             "require": {
@@ -52,7 +52,7 @@
                 "database",
                 "pdo"
             ],
-            "time": "2016-06-26 06:10:54"
+            "time": "2016-06-29 08:22:56"
         },
         {
             "name": "monolog/monolog",
