@@ -73,5 +73,83 @@ $config = [
 ## Basic Usage
 
 ### 实例化一个表对象：
+```
 	$table = new Lulu\Table\Table($config);
-
+```
+### 指定表名与主键
+```
+->table('user');    //指定要操作的表名,返回this
+->setPrimary('uid') //手动设定表的主键
+```
+### 查询限定
+#### field()
+限定范围，输入可以为空、字符串、数组
+```
+$user->field();                     //返回所有字段
+$user->field('uid');                //返回字段uid
+$user->field('uid,uname');          //返回字段uid,uname
+$user->field(['uid','uname']);      //返回字段uid,uname
+```
+#### key()
+只有当查询为all()时有效，作用为指定返回结果中的下标
+```
+$user->key('ulogin');           //返回结果集中ulogin做下标       //只对all有效
+```
+#### order()
+对结果进行排序，输入为两项，第一项为指定顺序，第二项为排序对象。为空时默认为主键
+```
+$user->order('desc','id');        //结果集id 倒排序
+$user->order('desc');        	  //对主键结果集id 倒排序
+```
+#### group()
+对groupid 进行group操作
+```
+$user->group('groupid');        //对groupid 进行group操作
+```
+#### limit()
+对返回条数进行限定。当有1一个参数时表示从头开始限定的条数，有两个参数时表示从p1开始的p2条。输入可以为字符串或整数
+```
+$user->limit(1000);             //对返回条数记性限定
+$user->limit("1000");		//对返回条数记性限定
+$user->limit("10,100");         //对返回条数记性限定
+$user->limit(10,100);           //对返回条数记性限定
+```
+#### reset()
+清除所有的查询条件
+```
+$user->reset();
+```
+### 查询返回
+当有输入时表示查询主键
+```
+->all();        //例如 $res = $user->all(1);  //对uid = 1 的用户查询
+->row();
+->col();
+->one();
+->map();
+```
+### 增删改
+#### insert
+插入value，默认为字符串
+```
+$user->insert($value);
+```
+#### delete()
+如果有输入，默认为删除主键id
+```
+$user->delete(1);
+$user->where("id = 1")->delete();
+```
+#### update()
+输入两个参数，第一个为更新的value数组，第二个对应修改地方的主键id。参数2可以不用。
+```
+//update
+$user->where("id=1")->update($value);
+$user->update($value,1);            //对主键为1的记录进行更新
+```
+#### 辅助功能
+```
+$user->lastid();      //最后一次操作id
+$user->querycount(); //访问数据库次数
+$user->version();//返回当前版本号
+$user->close();//关闭数据库
