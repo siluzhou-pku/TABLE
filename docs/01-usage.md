@@ -82,6 +82,12 @@ $config = [
 ->setPrimary('uid') //手动设定表的主键
 ```
 ### 查询限定
+#### where()
+查询条件，输入可以为数组或者字符串
+```
+$res = $user->where('uid=1')->all();    //对uid = 1 的用户查询
+$res = $user->where(['uid'=>1])->all(); //对uid = 1 的用户查询
+```
 #### field()
 限定范围，输入可以为空、字符串、数组
 ```
