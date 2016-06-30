@@ -55,11 +55,10 @@ interface TableInterface
 
     /**
      *specify the sort order or direction
-     * @param string $in1
-     * @param string $in2
+     * @param string $str
      * @return $this
      */
-    public function order($in1="",$in2="");
+    public function order($str="");
 
     /**
      * specify an index(only valid for function all())
