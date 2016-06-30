@@ -208,6 +208,15 @@ class Table implements TableInterface {
      */
     public function group($str="")
     {
+        if(strlen($str)!=0){
+            if(strlen($this->condition['group'])==0){
+                $this->condition['group']=" group by".$str;
+            }
+            else {
+                $this->condition['group'].=" , ".$str;
+            }
+
+        }
         return $this;
     }
 
@@ -219,6 +228,34 @@ class Table implements TableInterface {
     public function field($in=null)
     {
         // TODO: Implement field() method.
+        $str="";
+        if (is_null($in)) {//如果field为空，且前面已经用过field函数，此处的field无效
+            if(strlen($this->condition['field'])==0)
+                $this->condition['field']=" select * ";
+        } else {
+            if(is_array($in)) {
+                $num=0;
+                foreach($in as $key=>$value) {
+                    if($num==0) {
+                        $str.=" `".$value."` ";
+                    }else {
+                        $str.=" , `".$value."` ";
+                    }
+                    $num++;
+                }
+            } elseif(is_string($in)) {
+                $str=$in;
+            } else {
+                //待添加，如果输入不满足要求，将field设置为空Or返回错误
+            }
+            //输入长度不为0才进行下面的操作
+            if(strlen($str)!=0) {//如果现在系统记录的field不为空，说明已经调用了一次field函数了，所以只需要在后面再拼上str即可。否则的话需要再加上select
+                if(strlen($this->condition['field'])==0) {
+                    $this->condition['field']=" select ".$str;
+                } else
+                    $this->condition['field'].=" , ".$str;
+            }
+        }
         return $this;
     }
 
