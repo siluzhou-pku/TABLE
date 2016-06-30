@@ -19,7 +19,11 @@ $config = [
     'database'      => 'lut',                //数据库名
     'charset'       => 'utf8',              //字符集设置
     'pconnect'      => 1,                   //1  长连接模式 0  短连接
-    'quiet'         => 0,                   //安静模式 生产环境的
-    'slowquery'     => 1,                   //对慢查询记录
+    'debug'         => 1,                   //1 调试模式，0 生产模式
+
 ];
 $table = new Lulu\Table\Table($config);
+$table->key(':dqi')->where(['uid'=>'12']);
+var_dump($table->condition);
+$table->reset();
+var_dump($table->condition);

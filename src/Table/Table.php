@@ -9,6 +9,7 @@
  */
 
 namespace Lulu\Table;
+use Lulu\Db\Db;
 class Table implements TableInterface {
 
     /**
@@ -24,12 +25,6 @@ class Table implements TableInterface {
      * @var object
      */
     private $db = null;
-    /**
-     * times of accessing database(only write)
-     * @access private
-     * @var int
-     */
-    private $querycount=0;
 
     /**
      * current version of class Db
@@ -38,29 +33,14 @@ class Table implements TableInterface {
      */
     private $version = "1.0";
 
-    /**
-     * the time threshold to how long the query must run in number of seconds to be considered a "slow query. "
-     * defined in $_config
-     * @access private
-     * @var float
-     */
-    private $slowquery  = 0;
 
     /**
-     * True to connect database while initialization; otherwise, false
+     * True means in debug mode; otherwise, false
      * defined in $_config
      * @access private
      * @var boolean
      */
-    private $pconnect=0;
-
-    /**
-     * True to suppress all error or warning messages; otherwise, false
-     * defined in $_config
-     * @access private
-     * @var boolean
-     */
-    private $quiet=0;
+    private $debug=0;
 
 
 
@@ -93,7 +73,17 @@ class Table implements TableInterface {
      */
     public function __construct($config = array()){
         $this->_config = $config;
-        $this->db=new \Lulu\Db\Db($config);//参考namespace文档，加上'\'相当于绝对路径，而不加\相当于相对路径，在当前路径往下进行寻找
+        $this->debug=$config['debug'];
+        $config_db=$this->_config;
+        if($this->debug) {
+            $config_db['slowquery']=1;
+            $config_db['quiet']=0;
+        }else {
+            $config_db['slowquery']=0;
+            $config_db['quiet']=1;
+        }
+        $this->db = new Db($config_db);
+        //$this->db=new \Lulu\Db\Db($config);//参考namespace文档，加上'\'相当于绝对路径，而不加\相当于相对路径，在当前路径往下进行寻找
     }
     /**
      * return times of accessing database
@@ -101,8 +91,7 @@ class Table implements TableInterface {
      */
     public function queryCount()
     {
-        return $this->querycount;
-
+        return $this->db->querycount();
     }
     /**
      * return the last operating id
@@ -111,6 +100,7 @@ class Table implements TableInterface {
     public function lastId()
     {
         // TODO: Implement lastId() method.
+        return $this->db->lastInsert();
     }
 
 
@@ -122,6 +112,11 @@ class Table implements TableInterface {
     public function table($str = "")
     {
         // TODO: Implement table() method.
+        $this->table['name']=$str;
+        if(array_key_exists($str,$this->_config)){
+            $this->table['primaryId']=$this->_config[$str];
+        }
+        return $this;
     }
 
     /**
@@ -132,6 +127,8 @@ class Table implements TableInterface {
     public function setPrimaryId($str = "")
     {
         // TODO: Implement setPrimaryId() method.
+        $this->table['primaryId']=$str;
+        return $this;
     }
 
     /**
@@ -142,17 +139,53 @@ class Table implements TableInterface {
     public function where($in)
     {
         // TODO: Implement where() method.
+        $str="";
+        if(is_array($in)) {
+            $num=0;
+            foreach($in as $key=>$value) {
+                if($num==0) {
+                    $str.="`".$key."` = '".$value."'";
+                }else {
+                    $str.=", `".$key."` = '".$value."'";
+                }
+                    $num++;
+            }
+        } elseif(is_string($in)) {
+            $str=$in;
+        } else {
+            //待添加，如果输入不满足要求，将where设置为空Or返回错误
+        }
+        //输入长度不为0才进行下面的操作
+        if(strlen($str)!=0) {//如果现在系统记录的where不为空，说明已经调用了一次where函数了，所以只需要在后面再拼上str即可。否则的话需要再加上where
+            if(strlen($this->condition['where'])==0) {
+                $this->condition['where']=" where ".$str;
+            } else
+                $this->condition['where'].=" , ".$str;
+        }
+        if($this->debug) {
+            //对where自段进行增量记录
+            //?增量记录是在使用where函数的地方还是进行一次增删改查记录的地方
+        }
+        return $this;
     }
 
     /**
      *specify the sort order or direction
-     * @param string $in1
-     * @param string $in2
+     * @param string $str
      * @return $this
      */
-    public function order($in1="",$in2="")
+    public function order($str="")
     {
         // TODO: Implement order() method.
+        //输入长度不为0才开始下面的操作
+        if(strlen($str)!=0) {
+            if(strlen($this->condition['order'])==0) {
+                $this->condition['order'].=" , ".$str;
+            } else {
+                $this->condition['order'].="order by ".$str;
+            }
+        }
+        return $this;
     }
 
     /**
@@ -163,6 +196,8 @@ class Table implements TableInterface {
     public function key($str="")
     {
         // TODO: Implement key() method.
+        $this->condition['key']=$str;//先保存结果，调用all的时候再起作用
+        return $this;
     }
 
 
@@ -173,7 +208,7 @@ class Table implements TableInterface {
      */
     public function group($str="")
     {
-
+        return $this;
     }
 
     /**
@@ -184,6 +219,7 @@ class Table implements TableInterface {
     public function field($in=null)
     {
         // TODO: Implement field() method.
+        return $this;
     }
 
     /**
@@ -195,6 +231,7 @@ class Table implements TableInterface {
     public function limit($in1=null, $in2=null)
     {
         // TODO: Implement limit() method.
+        return $this;
     }
 
     /**
@@ -204,6 +241,10 @@ class Table implements TableInterface {
     public function reset()
     {
         // TODO: Implement reset() method.
+        foreach ($this->condition as $key=>$value) {
+            $this->condition[$key]="";
+        }
+        return $this;
     }
 
     /**
