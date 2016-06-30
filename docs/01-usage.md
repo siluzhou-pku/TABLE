@@ -102,10 +102,10 @@ $user->field(['uid','uname']);      //返回字段uid,uname
 $user->key('ulogin');           //返回结果集中ulogin做下标       //只对all有效
 ```
 #### order()
-对结果进行排序，输入为两项，第一项为指定顺序，第二项为排序对象。为空时默认为主键
+对结果进行排序，输入字符串
 ```
-$user->order('desc','id');        //结果集id 倒排序
-$user->order('desc');        	  //对主键结果集id 倒排序
+$user->order('desc,id');        //结果集id 倒排序
+$user->order('desc,id,age');        	  //对主键结果集id与age 倒排序
 ```
 #### group()
 对groupid 进行group操作

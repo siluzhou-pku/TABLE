@@ -27,8 +27,8 @@ Table Driver
 - int lastId ()
 - $this limit ([int/string $in1 = null], [int $in2 = null])
 - array map ([int $id = null])
-- int/string one ([int $id = null])
-- $this order ([string $in1 = ""], [string $in2 = ""])
+- int/string one ([int $id = null]) 
+- $this order ([string $in1 = ""])
 - int queryCount ()
 - $this reset ()
 - array row ([int $id = null])
@@ -261,10 +261,9 @@ specify the sort order or direction
 
   -  access: public
 
- $this order ([string $in1 = ""], [string $in2 = ""])
+ $this order ([string $in1 = ""])
 
    - string $in1	
-  -  string $in2	
 	
 
 ---
