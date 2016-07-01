@@ -22,8 +22,47 @@ $config = [
     'debug'         => 1,                   //1 调试模式，0 生产模式
 
 ];
-$table = new Lulu\Table\Table($config);
-$table->key(':dqi')->where(['uid'=>'12']);
-var_dump($table->condition);
-$table->reset();
-var_dump($table->condition);
+$user = new Lulu\Table\Table($config);
+$user->table('user')->delete(60);
+$user->reset();
+$user->where("userId=59")->delete();
+$user->reset();
+$value=
+[
+    'login'     => 'select',
+    'nickName'  => 'x7x658',
+    'password'  => '12345678',
+    'email'     => 'shampeak@sina.com',
+    'mobile'    => '13811069199',
+];
+$user->insert($value);
+$user->reset();
+$value=
+    [
+        'login'     => '111',
+        'nickName'  => 'x7x658',
+        'password'  => '12345678',
+        'email'     => 'shampeak@sina.com',
+        'mobile'    => '13811069199',
+    ];
+$user->update($value,1);
+$value=
+    [
+        'login'     => '222',
+        'nickName'  => 'x7x658',
+        'password'  => '12345678',
+        'email'     => 'shampeak@sina.com',
+        'mobile'    => '13811069199',
+    ];
+
+$user->where("userId=1")->update($value);
+$user->reset();
+
+
+$res=$user->where("userId<50")->field("login,password,email")->limit("10,20")->order("password")->all();
+$user->reset();
+print_r($res);
+
+$res=$user->where("userId<50")->limit("10,20")->order("password")->all();
+$user->reset();
+print_r($res);

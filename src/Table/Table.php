@@ -49,7 +49,7 @@ class Table implements TableInterface {
      * @access private
      * @var array
      */
-    private $table= [
+    private $info= [
         "name"=>"",       //设置表名
         "primaryId"=>"",    //手动设定主键
     ];
@@ -58,7 +58,7 @@ class Table implements TableInterface {
      * @access private
      * @var array
      */
-    private $condition=[
+    private $cond=[//其他所有的字符串在拼接的时候都会加上sql字符串，例如limit,group by,只有where是个例外，考虑到查询与增删改操作的不一致。
         "field"=>"",        //* || username,group id || ['username','groupid']
         "where"=>"",        //1 || username==1 || ['username'=>'irones','groupid'=>1]
         "limit"=>"",        // 100 || 10,10
@@ -112,9 +112,9 @@ class Table implements TableInterface {
     public function table($str = "")
     {
         // TODO: Implement table() method.
-        $this->table['name']=$str;
+        $this->info['name']=$str;
         if(array_key_exists($str,$this->_config)){
-            $this->table['primaryId']=$this->_config[$str];
+            $this->info['primaryId']=$this->_config[$str];
         }
         return $this;
     }
@@ -127,7 +127,7 @@ class Table implements TableInterface {
     public function setPrimaryId($str = "")
     {
         // TODO: Implement setPrimaryId() method.
-        $this->table['primaryId']=$str;
+        $this->info['primaryId']=$str;
         return $this;
     }
 
@@ -157,10 +157,10 @@ class Table implements TableInterface {
         }
         //输入长度不为0才进行下面的操作
         if(strlen($str)!=0) {//如果现在系统记录的where不为空，说明已经调用了一次where函数了，所以只需要在后面再拼上str即可。否则的话需要再加上where
-            if(strlen($this->condition['where'])==0) {
-                $this->condition['where']=" where ".$str;
+            if(strlen($this->cond['where'])==0) {
+                $this->cond['where']=$str;
             } else
-                $this->condition['where'].=" , ".$str;
+                $this->cond['where'].=" , ".$str;
         }
         if($this->debug) {
             //对where自段进行增量记录
@@ -179,10 +179,10 @@ class Table implements TableInterface {
         // TODO: Implement order() method.
         //输入长度不为0才开始下面的操作
         if(strlen($str)!=0) {
-            if(strlen($this->condition['order'])==0) {
-                $this->condition['order'].=" , ".$str;
+            if(strlen($this->cond['order'])!=0) {
+                $this->cond['order'].=" , ".$str;
             } else {
-                $this->condition['order'].="order by ".$str;
+                $this->cond['order'].="order by ".$str;
             }
         }
         return $this;
@@ -196,7 +196,7 @@ class Table implements TableInterface {
     public function key($str="")
     {
         // TODO: Implement key() method.
-        $this->condition['key']=$str;//先保存结果，调用all的时候再起作用
+        $this->cond['key']=$str;//先保存结果，调用all的时候再起作用
         return $this;
     }
 
@@ -209,11 +209,11 @@ class Table implements TableInterface {
     public function group($str="")
     {
         if(strlen($str)!=0){
-            if(strlen($this->condition['group'])==0){
-                $this->condition['group']=" group by".$str;
+            if(strlen($this->cond['group'])==0){
+                $this->cond['group']=" group by ".$str;
             }
             else {
-                $this->condition['group'].=" , ".$str;
+                $this->cond['group'].=" , ".$str;
             }
 
         }
@@ -230,8 +230,8 @@ class Table implements TableInterface {
         // TODO: Implement field() method.
         $str="";
         if (is_null($in)) {//如果field为空，且前面已经用过field函数，此处的field无效
-            if(strlen($this->condition['field'])==0)
-                $this->condition['field']=" select * ";
+            if(strlen($this->cond['field'])==0)
+                $this->cond['field']=" select * ";
         } else {
             if(is_array($in)) {
                 $num=0;
@@ -250,10 +250,10 @@ class Table implements TableInterface {
             }
             //输入长度不为0才进行下面的操作
             if(strlen($str)!=0) {//如果现在系统记录的field不为空，说明已经调用了一次field函数了，所以只需要在后面再拼上str即可。否则的话需要再加上select
-                if(strlen($this->condition['field'])==0) {
-                    $this->condition['field']=" select ".$str;
+                if(strlen($this->cond['field'])==0) {
+                    $this->cond['field']=" select ".$str;
                 } else
-                    $this->condition['field'].=" , ".$str;
+                    $this->cond['field'].=" , ".$str;
             }
         }
         return $this;
@@ -268,6 +268,17 @@ class Table implements TableInterface {
     public function limit($in1=null, $in2=null)
     {
         // TODO: Implement limit() method.
+
+        if($in2==null) {//输入只有一个参数
+            if(is_string($in1)) {
+                $str=" limit ".$in1;
+            }else {
+                $str=" limit ".(string)($in1);
+            }
+        } else {
+            $str=" limit ".(string)($in1)." , ".(string)($in2);
+        }
+        $this->cond['limit']=$str;
         return $this;
     }
 
@@ -278,8 +289,8 @@ class Table implements TableInterface {
     public function reset()
     {
         // TODO: Implement reset() method.
-        foreach ($this->condition as $key=>$value) {
-            $this->condition[$key]="";
+        foreach ($this->cond as $key=>$value) {
+            $this->cond[$key]="";
         }
         return $this;
     }
@@ -293,6 +304,13 @@ class Table implements TableInterface {
     public function update($value, $id = null)
     {
         // TODO: Implement update() method.
+        $table=$this->info['name'];
+        if($id==null){
+            $where=$this->cond['where'];
+        } else
+            $where=$this->info['primaryId']." = ".$id;
+        $res=$this->db->update($table,$value,$where);
+        return $res;
     }
 
     /**
@@ -303,6 +321,9 @@ class Table implements TableInterface {
     public function insert($value)
     {
         // TODO: Implement insert() method.
+        $table=$this->info['name'];
+        $res=$this->db->insert($table,$value);
+        return $res;
     }
 
     /**
@@ -313,6 +334,13 @@ class Table implements TableInterface {
     public function delete($id = null)
     {
         // TODO: Implement delete() method.
+        $table=$this->info['name'];
+        if($id==null){
+            $where=$this->cond['where'];
+        } else
+            $where=$this->info['primaryId']." = ".$id;
+        $res=$this->db->delete($table,$where);
+        return $res;
     }
 
     /**
@@ -322,7 +350,12 @@ class Table implements TableInterface {
      */
     public function all($id = null)
     {
-        // TODO: Implement all() method.
+        $sql=$this->sqlConcat($id);
+        if(strlen($this->cond['key'])==0)
+            $res=$this->db->getAll($sql);
+        else
+            $res=$this->db->getAll($sql,$this->cond['key']);
+        return $res;
     }
 
     /**
@@ -333,6 +366,9 @@ class Table implements TableInterface {
     public function row($id = null)
     {
         // TODO: Implement row() method.
+        $sql=$this->sqlConcat($id);
+        $res=$this->db->getRow($sql);
+        return $res;
     }
     /**
      *execute SQL statements
@@ -342,6 +378,9 @@ class Table implements TableInterface {
     public function col($id = null)
     {
         // TODO: Implement col() method.
+        $sql=$this->sqlConcat($id);
+        $res=$this->db->getCol($sql);
+        return $res;
     }
     /**
      *execute SQL statements
@@ -351,6 +390,9 @@ class Table implements TableInterface {
     public function one($id = null)
     {
         // TODO: Implement one() method.
+        $sql=$this->sqlConcat($id);
+        $res=$this->db->getRow($sql);
+        return $res;
     }
 
     /**
@@ -361,6 +403,9 @@ class Table implements TableInterface {
     public function map($id = null)
     {
         // TODO: Implement map() method.
+        $sql=$this->sqlConcat($id);
+        $res=$this->db->getRow($sql);
+        return $res;
     }
     /**
      * close database
@@ -380,6 +425,25 @@ class Table implements TableInterface {
      */
     public function version(){
         return $this->version;
+    }
+
+    /**
+     * return the string concatenation to create SQL queries
+     * @param null $id
+     * @return string
+     */
+    private function sqlConcat($id=null){
+        if($id!=null){
+            $this->cond['where']=" where ".$this->info['primaryId']." = ".(string)($id);
+        } else {
+            if(strlen($this->cond['field'])==0)
+                $this->cond['field']=" select ".$this->info['primaryId'];
+        }
+
+        $sql=$this->cond['field']." from ".$this->info['name']." where ".$this->cond['where']." ".$this->cond['group']." ".$this->cond['order']." ".$this->cond['limit'];
+        if($this->debug==1)
+            echo $sql."<br />";
+        return $sql;
     }
 
 }
