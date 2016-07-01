@@ -34,61 +34,61 @@ interface TableInterface
 
     /**
      * set table name
-     * @param string $str
+     * @param string $tablename
      * @return $this
      */
-    public function table($str="");
+    public function table($tablename="");
 
     /**
      * set PrimaryId of table
-     * @param string $str
+     * @param string $key
      * @return $this
      */
-    public function setPrimaryId($str="");
+    public function setPrimaryKey($key="");
 
     /**
      * set data selection
      * @param  string/array $in
      * @return $this
      */
-    public function where($in);
+    public function where($where);
 
     /**
      *specify the sort order or direction
-     * @param string $str
+     * @param string $order
      * @return $this
      */
-    public function order($str="");
+    public function order($order="");
 
     /**
      * specify an index(only valid for function all())
-     * @param string $str
+     * @param string $key
      * @return $this
      */
-    public function key($str='');
+    public function key($key='');
 
 
     /**
      * group data
-     * @param string $str
+     * @param string $group
      * @return $this
      */
-    public function group($str="");
+    public function group($group="");
 
     /**
      * identity the field to be operated
-     * @param string/array $in
+     * @param string/array $field
      * @return $this
      */
-    public function field($in=null);
+    public function field($field=null);
 
     /**
      * specify the number of records
-     * @param int/string $in1
-     * @param int $in2
+     * @param int/string $offset1
+     * @param int $offset2
      * @return $this
      */
-    public function limit($in1=null,$in2=null);
+    public function limit($offset1=null,$offset2=null);
 
     /**
      * reset all conditions

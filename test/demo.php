@@ -19,12 +19,16 @@ $config = [
     'database'      => 'lut',                //数据库名
     'charset'       => 'utf8',              //字符集设置
     'pconnect'      => 1,                   //1  长连接模式 0  短连接
-    'debug'         => 1,                   //1 调试模式，0 生产模式
+    'quiet'         => 0,                   //安静模式 生产环境的
+    'slowquery'     => 1,                   //对慢查询记录
+    'increment'     => 1,                   //对where增量进行记录
+    'reflection'    => 1,                   //反射部分信息以供调试
+    'queryrecord'   => 1                  //对所有查询进行记录
+
 
 ];
 
 
-echo 8?20:30;
 $user = new Lulu\Table\Table($config);
 $user->table('user')->delete(60);
 $user->reset();
@@ -64,8 +68,8 @@ $user->reset();
 
 $res=$user->where("userId<50")->field("login,password,email")->limit("10,20")->order("password")->all();
 $user->reset();
-print_r($res);
+//print_r($res);
 
 $res=$user->where("userId<50")->limit("10,20")->order("password")->all();
 $user->reset();
-print_r($res);
+//print_r($res);

@@ -1,0 +1,3 @@
+[2016-07-01 21:11:18] queryrecord.INFO: query: all; sql:  select login,password,email from user where userId<50  order by password  limit 10,20 [] []
+[2016-07-01 21:11:18] queryrecord.INFO: query: all; sql:  select *  from user where userId<50  order by password  limit 10,20 [] []
+[2016-07-01 21:11:18] queryrecord.INFO: query: all; sql:  select *  from user where userId<50  order by password  limit 10,20 [] []

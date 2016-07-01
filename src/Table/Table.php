@@ -10,6 +10,8 @@
 
 namespace Lulu\Table;
 use Lulu\Db\Db;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 class Table implements TableInterface {
 
     /**
@@ -25,22 +27,18 @@ class Table implements TableInterface {
      * @var object
      */
     private $db = null;
-
+    /**
+     * monolog object
+     * @access private
+     * @var object
+     */
+    private $log=null;
     /**
      * current version of class Db
      * @access private
      * @var string
      */
     private $version = "1.0";
-
-
-    /**
-     * True means in debug mode; otherwise, false
-     * defined in $_config
-     * @access private
-     * @var boolean
-     */
-    private $debug=0;
 
 
 
@@ -51,7 +49,7 @@ class Table implements TableInterface {
      */
     private $info= [
         "name"=>"",       //设置表名
-        "primaryId"=>"",    //手动设定主键
+        "primaryKey"=>"",    //手动设定主键
     ];
     /**
      * condition of table
@@ -59,7 +57,7 @@ class Table implements TableInterface {
      * @var array
      */
     private $cond=[//其他所有的字符串在拼接的时候都会加上sql字符串，例如limit,group by,只有where是个例外，考虑到查询与增删改操作的不一致。
-        "field"=>"",        //* || username,group id || ['username','groupid']
+        "field"=>" select *",        //* || username,group id || ['username','groupid']
         "where"=>"",        //1 || username==1 || ['username'=>'irones','groupid'=>1]
         "limit"=>"",        // 100 || 10,10
         "order"=>"",        //id desc
@@ -73,16 +71,9 @@ class Table implements TableInterface {
      */
     public function __construct($config = array()){
         $this->_config = $config;
-        $this->debug=$config['debug'];
         $config_db=$this->_config;
-        if($this->debug) {
-            $config_db['slowquery']=1;
-            $config_db['quiet']=0;
-        }else {
-            $config_db['slowquery']=0;
-            $config_db['quiet']=1;
-        }
         $this->db = new Db($config_db);
+        $this->log=new Logger('queryrecord');
         //$this->db=new \Lulu\Db\Db($config);//参考namespace文档，加上'\'相当于绝对路径，而不加\相当于相对路径，在当前路径往下进行寻找
     }
     /**
@@ -106,179 +97,163 @@ class Table implements TableInterface {
 
     /**
      * set table name
-     * @param string $str
+     * @param string $tablename
      * @return $this
      */
-    public function table($str = "")
+    public function table($tablename = "")
     {
         // TODO: Implement table() method.
-        $this->info['name']=$str;
-        if(array_key_exists($str,$this->_config)){
-            $this->info['primaryId']=$this->_config[$str];
+        $this->info['name']=$tablename;
+        if(array_key_exists($tablename,$this->_config)){
+            $this->info['primaryKey']=$this->_config[$tablename];
         }
         return $this;
     }
 
     /**
-     * set PrimaryId of table
-     * @param string $str
+     * set PrimaryKey of table
+     * @param string $key
      * @return $this
      */
-    public function setPrimaryId($str = "")
+    public function setPrimaryKey($key = "")
     {
-        // TODO: Implement setPrimaryId() method.
-        $this->info['primaryId']=$str;
+        // TODO: Implement setPrimaryKey() method.
+        $this->info['primaryKey']=$key;
         return $this;
     }
 
     /**
      * set data selection
-     * @param  string/array $in
+     * @param  string/array $where
      * @return $this
      */
-    public function where($in)
+    public function where($where="")
     {
         // TODO: Implement where() method.
-        $str="";
-        if(is_array($in)) {
-            $num=0;
-            foreach($in as $key=>$value) {
-                if($num==0) {
-                    $str.="`".$key."` = '".$value."'";
-                }else {
-                    $str.=", `".$key."` = '".$value."'";
-                }
+        $sql="";
+        try {
+            if (is_array($where)) {
+                $num = 0;
+                foreach ($where as $key => $value) {
+                    if ($num == 0) {
+                        $sql .= "`" . $key . "` = '" . $value . "'";
+                    } else {
+                        $sql .= ", `" . $key . "` = '" . $value . "'";
+                    }
                     $num++;
+                }
+            } elseif (is_string($where)) {
+                $sql = $where;
+            } else {
+                throw new \Exception("Value must be string or array");
             }
-        } elseif(is_string($in)) {
-            $str=$in;
-        } else {
-            //待添加，如果输入不满足要求，将where设置为空Or返回错误
+        }catch(\Exception $e){
+            if(!$this->_config['quiet']){
+                echo "error! ".$e->getMessage()."<br />";
+                echo "trace: "."<br />".$e->getTraceAsString()."<br />";
+            }
         }
-        //输入长度不为0才进行下面的操作
-        if(strlen($str)!=0) {//如果现在系统记录的where不为空，说明已经调用了一次where函数了，所以只需要在后面再拼上str即可。否则的话需要再加上where
-            if(strlen($this->cond['where'])==0) {
-                $this->cond['where']=$str;
-            } else
-                $this->cond['where'].=" , ".$str;
-        }
-        if($this->debug) {
-            //对where自段进行增量记录
-            //?增量记录是在使用where函数的地方还是进行一次增删改查记录的地方
-        }
+        $this->cond['where']=$sql;
+
         return $this;
     }
 
     /**
      *specify the sort order or direction
-     * @param string $str
+     * @param string $order
      * @return $this
      */
-    public function order($str="")
+    public function order($order="")
     {
         // TODO: Implement order() method.
         //输入长度不为0才开始下面的操作
-        if(strlen($str)!=0) {
-            if(strlen($this->cond['order'])!=0) {
-                $this->cond['order'].=" , ".$str;
-            } else {
-                $this->cond['order'].="order by ".$str;
-            }
+        if(!empty($order)) {
+            $this->cond['order'].="order by ".$order;
         }
         return $this;
     }
 
     /**
      * specify an index(only valid for function all())
-     * @param string $str
+     * @param string $key
      * @return $this
      */
-    public function key($str="")
+    public function key($key="")
     {
         // TODO: Implement key() method.
-        $this->cond['key']=$str;//先保存结果，调用all的时候再起作用
+        if(!empty($key)){
+            $this->cond['key']=$key;//先保存结果，调用all的时候再起作用
+        }
+
         return $this;
     }
 
 
     /**
      * group data
-     * @param string $str
+     * @param string $group
      * @return $this
      */
-    public function group($str="")
+    public function group($group="")
     {
-        if(strlen($str)!=0){
-            if(strlen($this->cond['group'])==0){
-                $this->cond['group']=" group by ".$str;
-            }
-            else {
-                $this->cond['group'].=" , ".$str;
-            }
-
+        if(!empty($group)){
+            $this->cond['group'].=" , ".$group;
         }
         return $this;
     }
 
     /**
      * identity the field to be operated
-     * @param string/array $in
+     * @param string/array $field
      * @return $this
      */
-    public function field($in=null)
+    public function field($field="")
     {
         // TODO: Implement field() method.
-        $str="";
-        if (is_null($in)) {//如果field为空，且前面已经用过field函数，此处的field无效
-            if(strlen($this->cond['field'])==0)
-                $this->cond['field']=" select * ";
-        } else {
-            if(is_array($in)) {
-                $num=0;
-                foreach($in as $key=>$value) {
-                    if($num==0) {
-                        $str.=" `".$value."` ";
-                    }else {
-                        $str.=" , `".$value."` ";
-                    }
-                    $num++;
-                }
-            } elseif(is_string($in)) {
-                $str=$in;
+        $sql="";
+        try {
+            if (empty($field)) {
+                $this->cond['field'] = " select * ";
             } else {
-                //待添加，如果输入不满足要求，将field设置为空Or返回错误
+                if (is_array($field)) {
+                    foreach ($field as $key => $value) {
+                        $field[$key] = "`" . $value . "`";
+                    }
+                    $sql = implode(",", $field);
+                } elseif (is_string($field)) {
+                    $sql = $field;
+                } else {
+                    throw new \Exception("Value must be string or array");
+                }
             }
-            //输入长度不为0才进行下面的操作
-            if(strlen($str)!=0) {//如果现在系统记录的field不为空，说明已经调用了一次field函数了，所以只需要在后面再拼上str即可。否则的话需要再加上select
-                if(strlen($this->cond['field'])==0) {
-                    $this->cond['field']=" select ".$str;
-                } else
-                    $this->cond['field'].=" , ".$str;
+        }catch(\Exception $e) {
+            if(!$this->_config['quiet']) {
+                echo "error! " . $e->getMessage() . "<br />";
+                echo "trace: " . "<br />" . $e->getTraceAsString() . "<br />";
             }
         }
+        $this->cond['field']=" select ".$sql;
         return $this;
     }
 
     /**
      * specify the number of records
-     * @param int/string $in1
-     * @param int $in2
+     * @param int/string $offset1
+     * @param int $offset2
      * @return $this
      */
-    public function limit($in1=null, $in2=null)
+    public function limit($offset1="", $offset2=0)
     {
         // TODO: Implement limit() method.
 
-        if($in2==null) {//输入只有一个参数
-            if(is_string($in1)) {
-                $str=" limit ".$in1;
-            }else {
-                $str=" limit ".(string)($in1);
-            }
+        if($offset2==0) {//输入只有一个参数
+            $sql=$offset1;
         } else {
-            $str=" limit ".(string)($in1)." , ".(string)($in2);
+            $sql=$offset1." , ".$offset2;
         }
-        $this->cond['limit']=$str;
+        if(!empty($sql))
+            $sql=" limit ".$sql;
+        $this->cond['limit']=$sql;
         return $this;
     }
 
@@ -292,6 +267,7 @@ class Table implements TableInterface {
         foreach ($this->cond as $key=>$value) {
             $this->cond[$key]="";
         }
+        $this->cond['field']=" select * ";
         return $this;
     }
 
@@ -308,7 +284,7 @@ class Table implements TableInterface {
         if($id==null){
             $where=$this->cond['where'];
         } else
-            $where=$this->info['primaryId']." = ".$id;
+            $where=$this->info['primaryKey']." = ".$id;
         $res=$this->db->update($table,$value,$where);
         return $res;
     }
@@ -338,7 +314,7 @@ class Table implements TableInterface {
         if($id==null){
             $where=$this->cond['where'];
         } else
-            $where=$this->info['primaryId']." = ".$id;
+            $where=$this->info['primaryKey']." = ".$id;
         $res=$this->db->delete($table,$where);
         return $res;
     }
@@ -351,6 +327,7 @@ class Table implements TableInterface {
     public function all($id = null)
     {
         $sql=$this->sqlConcat($id);
+        $this->record($sql,"all");
         if(strlen($this->cond['key'])==0)
             $res=$this->db->getAll($sql);
         else
@@ -367,6 +344,7 @@ class Table implements TableInterface {
     {
         // TODO: Implement row() method.
         $sql=$this->sqlConcat($id);
+        $this->record($sql,"row");
         $res=$this->db->getRow($sql);
         return $res;
     }
@@ -379,6 +357,7 @@ class Table implements TableInterface {
     {
         // TODO: Implement col() method.
         $sql=$this->sqlConcat($id);
+        $this->record($sql,"col");
         $res=$this->db->getCol($sql);
         return $res;
     }
@@ -391,6 +370,7 @@ class Table implements TableInterface {
     {
         // TODO: Implement one() method.
         $sql=$this->sqlConcat($id);
+        $this->record($sql,"one");
         $res=$this->db->getRow($sql);
         return $res;
     }
@@ -404,6 +384,7 @@ class Table implements TableInterface {
     {
         // TODO: Implement map() method.
         $sql=$this->sqlConcat($id);
+        $this->record($sql,"map");
         $res=$this->db->getRow($sql);
         return $res;
     }
@@ -428,21 +409,35 @@ class Table implements TableInterface {
     }
 
     /**
+     * monolog and query record
+     * @param string $sql
+     * @param string $functionname
+     */
+    private function record($sql="",$functionname="") {
+        if($this->_config['queryrecord']){
+            $this->log->pushHandler(new StreamHandler('../log/queryrecord.log', Logger::INFO));
+            $this->log->addInfo("query: ".$functionname."; sql: ".$sql);
+        }
+        if($this->_config['increment']){
+
+        }
+    }
+    /**
      * return the string concatenation to create SQL queries
      * @param null $id
      * @return string
      */
     private function sqlConcat($id=null){
         if($id!=null){
-            $this->cond['where']=" where ".$this->info['primaryId']." = ".(string)($id);
+            $this->cond['where']=" where ".$this->info['primaryKey']." = ".(string)($id);
         } else {
             if(strlen($this->cond['field'])==0)
-                $this->cond['field']=" select ".$this->info['primaryId'];
+                $this->cond['field']=" select ".$this->info['primaryKey'];
         }
         //加 where 是否为空的判断
-        $sql=$this->cond['field']." from ".$this->info['name']." where ".$this->cond['where']." ".$this->cond['group']." ".$this->cond['order']." ".$this->cond['limit'];
-        if($this->debug==1)
-            echo $sql."<br />";
+        if(!empty($this->cond['where']))
+            $this->cond['where']=" where ".$this->cond['where'];
+        $sql=$this->cond['field']." from ".$this->info['name'].$this->cond['where']." ".$this->cond['group']." ".$this->cond['order']." ".$this->cond['limit'];
         return $sql;
     }
 
