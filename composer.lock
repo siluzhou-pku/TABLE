@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1e041b1af6f2a0014d80decf1aab0752",
-    "content-hash": "ff58d15e92c7f59b1f713ded0f3b20fd",
+    "hash": "dcd0bb946a5b411d1daef1ed928e1ff0",
+    "content-hash": "b1ee743eb10d1da3be77c0a54e8afbe0",
     "packages": [
         {
             "name": "lulu/db",
@@ -186,6 +186,8 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": ">=5.4"
+    },
     "platform-dev": []
 }

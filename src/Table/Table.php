@@ -439,7 +439,7 @@ class Table implements TableInterface {
             if(strlen($this->cond['field'])==0)
                 $this->cond['field']=" select ".$this->info['primaryId'];
         }
-
+        //加 where 是否为空的判断
         $sql=$this->cond['field']." from ".$this->info['name']." where ".$this->cond['where']." ".$this->cond['group']." ".$this->cond['order']." ".$this->cond['limit'];
         if($this->debug==1)
             echo $sql."<br />";

@@ -22,6 +22,9 @@ $config = [
     'debug'         => 1,                   //1 调试模式，0 生产模式
 
 ];
+
+
+echo 8?20:30;
 $user = new Lulu\Table\Table($config);
 $user->table('user')->delete(60);
 $user->reset();
