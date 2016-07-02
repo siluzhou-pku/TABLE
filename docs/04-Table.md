@@ -14,36 +14,36 @@ Table Driver
 ### Method Summary
 
 	
-- 	
 - Table __construct ([array $config = array()])
-- array all ([int $id = null])
+- array all ([int $id = 0])
 - boolean close ()
-- array col ([int $id = null])
-- boolean/obj delete ([int $id = null])
-- $this field ([string/array $in = null])
-- $this group ([string $str = ""])
+- array col ([int $id = 0])
+- boolean/obj delete ([int $id = 0])
+- $this field ([string/array $field = ""])
+- $this group ([string $group = ""])
 - boolean/obj insert (array $value)
-- $this key ([string $str = ""])
+- $this key ([string $key = ""])
 - int lastId ()
-- $this limit ([int/string $in1 = null], [int $in2 = null])
-- array map ([int $id = null])
-- int/string one ([int $id = null]) 
-- $this order ([string $in1 = ""])
+- $this limit ([int/string $offset1 = ""], [int $offset2 = 0])
+- array map ([int $id = 0])
+- int/string one ([int $id = 0])
+- $this order ([string $order = ""])
 - int queryCount ()
 - $this reset ()
-- array row ([int $id = null])
-- $this setPrimaryId ([string $str = ""])
-- $this table ([string $str = ""])
-- boolean/obj update (array $value, [int $id = null])
+- array row ([int $id = 0])
+- $this setPrimaryKey ([string $key = ""])
+- $this table ([string $tablename = ""])
+- boolean/obj update (array $value, [int $id = 0])
 - string version ()
-- $this where (string/array $in)
+- $this where ([string/array $where = ""])
+
 
 
 
 ### Methods
 
 
-#### Constructor __construct (line 94)
+#### Constructor __construct (line 72)
 
 constructor $_config
 
@@ -53,15 +53,15 @@ Table __construct ([array $config = array()])
 
 -    array $config	
 
-#### all (line 245)
-
+#### all (line 327)
 execute SQL statements
 
--    access: public
+ -   access: public
 
-array all ([int $id = null])
+array all ([int $id = 0])
 
--    int $id	
+ -   int $id	
+
 
 ---
 
@@ -70,13 +70,13 @@ array all ([int $id = null])
 TableInterface::all()
   -  execute SQL statements
 
-#### close (line 292)
+####  close (line 396)
 
 close database
 
- -   access: public
+  -  access: public
 
-boolean close ()
+boolean close () 
 
 ---
 
@@ -85,15 +85,16 @@ boolean close ()
 TableInterface::close()
   -  close database
 
-#### col (line 264)
+####  col (line 356)
 
 execute SQL statements
 
    - access: public
 
-array col ([int $id = null])
+array col ([int $id = 0])
 
-   - int $id	
+  -  int $id	
+
 
 ---
 
@@ -102,15 +103,16 @@ array col ([int $id = null])
 TableInterface::col()
  -   execute SQL statements
 
-#### delete (line 235)
+####  delete (line 310)
 
 delete database
 
   -  access: public
 
-boolean/obj delete ([int $id = null])
+boolean/obj delete ([int $id = 0])
 
   -  int $id	
+
 
 ---
 
@@ -119,15 +121,16 @@ boolean/obj delete ([int $id = null])
 TableInterface::delete()
    - delete database
 
-#### field (line 184)
+####  field (line 210)
 
 identity the field to be operated
 
-   - access: public
+ -   access: public
 
-$this field (string/array $in)
+$this field ([string/array $field = ""])
 
-  -  string/array $in	
+  -  string/array $field	
+
 
 ---
 
@@ -136,22 +139,23 @@ $this field (string/array $in)
 TableInterface::field()
    - identity the field to be operated
 
-#### group (line 170)
+####  group (line 197)
 
 group data
 
-  -  access: public
+   - access: public
 
-$this group (string $str)
+$this group ([string $group = ""])
 
-  -  string $str	
+   - string $group	
+
 
 Implementation of:
 
 TableInterface::group()
   -  group data
 
-#### insert (line 221)
+####  insert (line 297)
 
 insert database
 
@@ -160,6 +164,7 @@ insert database
 boolean/obj insert (array $value)
 
   -  array $value	
+
 
 ---
 
@@ -174,9 +179,9 @@ specify an index(only valid for function all())
 
   -  access: public
 
-$this key (string $str)
+$this key ([string $key = ""])
 
-  -  string $str	
+  -  string $key	
 
 ---
 
@@ -185,7 +190,7 @@ $this key (string $str)
 TableInterface::key()
    - specify an index(only valid for function all())
 
-#### lastId (line 111)
+#### lastId (line 91)
 
 return the last operating id
 
@@ -200,16 +205,17 @@ void lastId ()
 TableInterface::lastId()
   -  return the last operate ID
 
- #### limit (line 195)
+ ####  limit (line 245)
 
 specify the number of records
 
-  -  access: public
+   - access: public
 
-$this limit ([int/string $in1 = null], [int $in2 = null])
+$this limit ([int/string $offset1 = ""], [int $offset2 = 0])
 
-   - int/string $in1	
-   - int $in2	
+  -  int/string $offset1	
+  -  int $offset2	
+
 
 ---
 
@@ -218,15 +224,16 @@ $this limit ([int/string $in1 = null], [int $in2 = null])
 TableInterface::limit()
   -  specify the number of records
 
-#### map (line 283)
+####  map (line 383)
 
 execute SQL statements
 
    - access: public
 
- array map ([int $id = null])
+array map ([int $id = 0])
 
-   - int $id	
+  -  int $id	
+
 
 ---
 
@@ -235,17 +242,16 @@ execute SQL statements
 TableInterface::map()
   -  execute SQL statements
 
-#### one (line 273)
+####  one (line 369)
 
 execute SQL statements
 
   -  access: public
 
+int/string one ([int $id = 0])
 
+   - int $id	
 
-int/string one ([int $id = null])
-
-  -  int $id	
 
 
 ---
@@ -255,15 +261,16 @@ int/string one ([int $id = null])
 TableInterface::one()
   -  execute SQL statements
 
-#### order (line 153)
+####  order (line 166)
 
 specify the sort order or direction
 
   -  access: public
 
- $this order ([string $in1 = ""])
+$this order ([string $order = ""])
 
-   - string $in1	
+   - string $order	
+
 	
 
 ---
@@ -273,25 +280,28 @@ specify the sort order or direction
 TableInterface::order()
   -  specify the sort order or direction
 
-#### queryCount (line 102)
+####  queryCount (line 83)
 
 return times of accessing database
 
- -   access: public
+  -  access: public
 
-int queryCount ()
-Implementation of:
+int queryCount () 
+
+---
+
+*Implementation of:*
 
 TableInterface::queryCount()
 
 return times of accessing database
-#### reset (line 204)
+####  reset (line 264)
 
 reset all conditions
 
-  -  access: public
+    access: public
 
-$this reset ()
+$this reset () 
 
 
 ---
@@ -301,15 +311,16 @@ $this reset ()
 TableInterface::reset()
   -  reset all conditions
 
-#### row (line 255)
+####  row (line 343)
 
 execute SQL statements
 
    - access: public
 
- array row ([int $id = null])
+array row ([int $id = 0])
 
-   - int $id	
+  -  int $id	
+
 
 
 
@@ -320,32 +331,36 @@ execute SQL statements
 TableInterface::row()
    - execute SQL statements
 
-#### setPrimaryId (line 130)
+#### 
+setPrimaryKey (line 118)
 
-set PrimaryId of table
+set PrimaryKey of table
 
-   - access: public
+    access: public
 
-$this setPrimaryId ([string $str = ""])
+$this setPrimaryKey ([string $key = ""])
 
-   - string $str	
+    string $key	
 
 ---
 
 *Implementation of:*
 
-TableInterface::setPrimaryId()
-   - set PrimaryId of table
+TableInterface::setPrimaryKey()
+    set PrimaryId of table
 
-#### table (line 120)
+
+
+####  table (line 103)
 
 set table name
 
-   - access: public
+ -   access: public
 
-$this table ([string $str = ""])
+$this table ([string $tablename = ""])
 
-   - string $str	
+ -   string $tablename	
+
 
 ---
 
@@ -354,16 +369,17 @@ $this table ([string $str = ""])
 TableInterface::table()
   -  set table name
 
-#### update (line 211)
+####  update (line 280)
 
 update database
 
-  -  access: public
+ -   access: public
 
-boolean/obj update (array $value, [int $id = null])
+boolean/obj update (array $value, [int $id = 0])
 
   -  array $value	
   -  int $id	
+
 
 ---
 
@@ -372,7 +388,7 @@ boolean/obj update (array $value, [int $id = null])
 TableInterface::update()
    - update database
 
-#### version (line 295)
+#### version (line 407)
 
 return the current version of class db;
 
@@ -386,15 +402,17 @@ string version ()
 
 TableInterface::version()
 
-#### where (line 140)
+####  where (line 130)
 
 set data selection
 
-  -  access: public
+ -   access: public
 
-$this where (string/array $in)
+$this where ([string/array $where = ""])
 
-  -  string/array $in	
+  -  string/array $where	
+
+
 
 ---
 

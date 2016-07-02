@@ -12,8 +12,9 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "lulu/db":"v1.0",
-        "php" : ">=5.4"
+        "lulu/db":"v1.0.1",
+        "php" : ">=5.4",
+        "monolog/monolog":"~1.7.0"
     },
     "autoload":{
         "psr-4":{

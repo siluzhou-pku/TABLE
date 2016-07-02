@@ -277,11 +277,11 @@ class Table implements TableInterface {
      * @param int $id
      * @return boolean/obj
      */
-    public function update($value, $id = null)
+    public function update($value, $id = 0)
     {
         // TODO: Implement update() method.
         $table=$this->info['name'];
-        if($id==null){
+        if(empty($id)){
             $where=$this->cond['where'];
         } else
             $where=$this->info['primaryKey']." = ".$id;
@@ -307,11 +307,11 @@ class Table implements TableInterface {
      * @param int $id
      * @return boolean/obj
      */
-    public function delete($id = null)
+    public function delete($id = 0)
     {
         // TODO: Implement delete() method.
         $table=$this->info['name'];
-        if($id==null){
+        if(empty($id)){
             $where=$this->cond['where'];
         } else
             $where=$this->info['primaryKey']." = ".$id;
@@ -324,7 +324,7 @@ class Table implements TableInterface {
      * @param int $id
      * @return array
      */
-    public function all($id = null)
+    public function all($id = 0)
     {
         $sql=$this->sqlConcat($id);
         $this->record($sql,"all");
@@ -340,7 +340,7 @@ class Table implements TableInterface {
      * @param int $id
      * @return array
      */
-    public function row($id = null)
+    public function row($id = 0)
     {
         // TODO: Implement row() method.
         $sql=$this->sqlConcat($id);
@@ -353,7 +353,7 @@ class Table implements TableInterface {
      * @param int $id
      * @return array
      */
-    public function col($id = null)
+    public function col($id = 0)
     {
         // TODO: Implement col() method.
         $sql=$this->sqlConcat($id);
@@ -366,12 +366,12 @@ class Table implements TableInterface {
      * @param int $id
      * @return int/string
      */
-    public function one($id = null)
+    public function one($id = 0)
     {
         // TODO: Implement one() method.
         $sql=$this->sqlConcat($id);
         $this->record($sql,"one");
-        $res=$this->db->getRow($sql);
+        $res=$this->db->getOne($sql);
         return $res;
     }
 
@@ -380,12 +380,12 @@ class Table implements TableInterface {
      * @param int $id
      * @return array
      */
-    public function map($id = null)
+    public function map($id = 0)
     {
         // TODO: Implement map() method.
         $sql=$this->sqlConcat($id);
         $this->record($sql,"map");
-        $res=$this->db->getRow($sql);
+        $res=$this->db->getMap($sql);
         return $res;
     }
     /**
@@ -424,12 +424,12 @@ class Table implements TableInterface {
     }
     /**
      * return the string concatenation to create SQL queries
-     * @param null $id
+     * @param int $id
      * @return string
      */
-    private function sqlConcat($id=null){
-        if($id!=null){
-            $this->cond['where']=" where ".$this->info['primaryKey']." = ".(string)($id);
+    private function sqlConcat($id=0){
+        if(!empty($id)){
+            $this->cond['where']=$this->info['primaryKey']." = ".(string)($id);
         } else {
             if(strlen($this->cond['field'])==0)
                 $this->cond['field']=" select ".$this->info['primaryKey'];

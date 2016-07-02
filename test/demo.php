@@ -24,12 +24,13 @@ $config = [
     'increment'     => 1,                   //对where增量进行记录
     'reflection'    => 1,                   //反射部分信息以供调试
     'queryrecord'   => 1                  //对所有查询进行记录
-
-
 ];
 
 
 $user = new Lulu\Table\Table($config);
+$res=$user->table('user')->where("userId<50")->field("userId,login,password,email")->limit("10,20")->order("password,userId desc")->key('userId')->all();
+print_r($res);
+
 $user->table('user')->delete(60);
 $user->reset();
 $user->where("userId=59")->delete();
@@ -68,8 +69,8 @@ $user->reset();
 
 $res=$user->where("userId<50")->field("login,password,email")->limit("10,20")->order("password")->all();
 $user->reset();
-//print_r($res);
+print_r($res);
 
 $res=$user->where("userId<50")->limit("10,20")->order("password")->all();
 $user->reset();
-//print_r($res);
+print_r($res);
