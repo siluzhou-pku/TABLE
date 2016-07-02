@@ -16,7 +16,7 @@ You need:
 
 - **PHP >= 5.4** , but the latest stable version of PHP is recommended
 - **"lulu/db":"v1.0.1"**,
-- **"monolog/monolog":"~1.17.0"**
+- **"monolog/monolog":">=1.17.0"**
 
 to use the library.
 
