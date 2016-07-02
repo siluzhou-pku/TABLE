@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "907005d0fdd831ef270da22bdd515665",
-    "content-hash": "0d16c2fdf002d2e07d8382e568f425d3",
+    "hash": "040209373bf7a2ee8ec0a3b9a111bfb0",
+    "content-hash": "ec214d1a859e1845353d8feeddf8e64a",
     "packages": [
         {
             "name": "lulu/db",
