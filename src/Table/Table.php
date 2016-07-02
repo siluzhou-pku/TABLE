@@ -415,7 +415,7 @@ class Table implements TableInterface {
      */
     private function record($sql="",$functionname="") {
         if($this->_config['queryrecord']){
-            $this->log->pushHandler(new StreamHandler('../log/queryrecord.log', Logger::INFO));
+            $this->log->pushHandler(new StreamHandler( '../log/dblog.log', Logger::INFO));
             $this->log->addInfo("query: ".$functionname."; sql: ".$sql);
         }
         if($this->_config['increment']){
