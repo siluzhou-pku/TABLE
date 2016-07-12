@@ -71,8 +71,24 @@ class Table implements TableInterface {
      */
     public function __construct($config = array()){
         $this->_config = $config;
-        $config_db=$this->_config;
+
+
+        //将db类的配置信息与table分离。
+
+        $config_db= [
+            'hostname'      => '127.0.0.1',         //服务器地址
+            'port'          => '3306',              //端口
+            'username'      => 'root',              //用户名
+            'password'      => 'root',              //密码
+            'database'      => 'lut',                //数据库名
+            'charset'       => 'utf8',              //字符集设置
+            'pconnect'      => 1,                   //1  长连接模式 0  短连接
+            'quiet'         => 0,                   //安静模式 生产环境的
+            'slowquery'     => 1,                   //对慢查询记录
+        ];
         $this->db = new Db($config_db);
+
+        //
         $this->log=new Logger('queryrecord');
         //$this->db=new \Lulu\Db\Db($config);//参考namespace文档，加上'\'相当于绝对路径，而不加\相当于相对路径，在当前路径往下进行寻找
     }

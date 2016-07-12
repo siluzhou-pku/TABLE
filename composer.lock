@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "040209373bf7a2ee8ec0a3b9a111bfb0",
-    "content-hash": "ec214d1a859e1845353d8feeddf8e64a",
+    "hash": "bc090d3fe989c1152cec6f0bd4a97b76",
+    "content-hash": "46da5026bdeecdb97f3d59868cc6df21",
     "packages": [
         {
             "name": "lulu/db",
-            "version": "v1.0.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/siluzhou/DBDriver.git",
-                "reference": "cffd78b3592b6583dfa47bdc51afd012bd83500f"
+                "reference": "5246b657116a83df686e6ec71f0f332daafdf9c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/siluzhou/DBDriver/zipball/cffd78b3592b6583dfa47bdc51afd012bd83500f",
-                "reference": "cffd78b3592b6583dfa47bdc51afd012bd83500f",
+                "url": "https://api.github.com/repos/siluzhou/DBDriver/zipball/5246b657116a83df686e6ec71f0f332daafdf9c7",
+                "reference": "5246b657116a83df686e6ec71f0f332daafdf9c7",
                 "shasum": ""
             },
             "require": {
@@ -50,7 +50,7 @@
                 "database",
                 "pdo"
             ],
-            "time": "2016-07-02 02:55:36"
+            "time": "2016-07-12 03:14:34"
         },
         {
             "name": "monolog/monolog",
@@ -58,12 +58,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "33df7889304575a7912935ada1beab36fa85a5d9"
+                "reference": "55841909e2bcde01b5318c35f2b74f8ecc86e037"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/33df7889304575a7912935ada1beab36fa85a5d9",
-                "reference": "33df7889304575a7912935ada1beab36fa85a5d9",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/55841909e2bcde01b5318c35f2b74f8ecc86e037",
+                "reference": "55841909e2bcde01b5318c35f2b74f8ecc86e037",
                 "shasum": ""
             },
             "require": {
@@ -128,7 +128,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2016-06-11 15:09:14"
+            "time": "2016-07-02 14:02:10"
         },
         {
             "name": "psr/log",

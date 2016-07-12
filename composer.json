@@ -12,7 +12,7 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "lulu/db":"v1.0.1",
+        "lulu/db":"dev-master",
         "php" : ">=5.4",
         "monolog/monolog":">=1.17.0"
     },
