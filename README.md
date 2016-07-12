@@ -1,4 +1,4 @@
-# Table dev
+# Table v1.0
 
 Table Driver connects and manages table based on application programming interface (**API**) 
 
@@ -30,20 +30,10 @@ Install Lulu\Table using Composer.
 ```
 $config = [
     'user'          => 'userId',            //操作的表与主键
-    'hostname'      => '127.0.0.1',         //服务器地址
-    'port'          => '3306',              //端口
-    'username'      => 'root',              //用户名
-    'password'      => 'root',              //密码
-    'database'      => 'lut',                //数据库名
-    'charset'       => 'utf8',              //字符集设置
-    'pconnect'      => 1,                   //1  长连接模式 0  短连接
-    'quiet'         => 0,                   //安静模式 生产环境的
-    'slowquery'     => 1,                   //对慢查询记录
     'increment'     => 1,                   //对where增量进行记录
     'reflection'    => 1,                   //反射部分信息以供调试
-    'queryrecord'   => 1                  //对所有查询进行记录
-
-
+    'queryrecord'   => 1,                  //对所有查询进行记录
+    'quiet'         => 0,                   //安静模式 生产环境的
 ];
 ```
 
