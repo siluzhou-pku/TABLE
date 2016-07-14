@@ -1,4 +1,4 @@
-# Table v1.0.1
+# Table dev
 
 Table Driver connects and manages table based on application programming interface (**API**) 
 
