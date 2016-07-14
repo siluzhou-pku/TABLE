@@ -29,10 +29,9 @@ Install Lulu\Table using Composer.
 ## Config
 ```
 $config = [
-    'user'          => 'userId',            //操作的表与主键
+    'keymap'        =>
+        ['user'     => 'userId'],           //操作的表与主键],//存放表名与主键的函数
     'increment'     => 1,                   //对where增量进行记录
-    'reflection'    => 1,                   //反射部分信息以供调试
-    'queryrecord'   => 1,                  //对所有查询进行记录
     'quiet'         => 0,                   //安静模式 生产环境的
 ];
 ```

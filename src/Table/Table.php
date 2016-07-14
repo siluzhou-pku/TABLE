@@ -27,12 +27,7 @@ class Table implements TableInterface {
      * @var object
      */
     private $db = null;
-    /**
-     * monolog object
-     * @access private
-     * @var object
-     */
-    private $log=null;
+
     /**
      * current version of class Db
      * @access private
@@ -89,7 +84,7 @@ class Table implements TableInterface {
         $this->db = new Db($config_db);
 
         //
-        $this->log=new Logger('queryrecord');
+
         //$this->db=new \Lulu\Db\Db($config);//参考namespace文档，加上'\'相当于绝对路径，而不加\相当于相对路径，在当前路径往下进行寻找
     }
     /**
@@ -120,8 +115,8 @@ class Table implements TableInterface {
     {
         // TODO: Implement table() method.
         $this->info['name']=$tablename;
-        if(array_key_exists($tablename,$this->_config)){
-            $this->info['primaryKey']=$this->_config[$tablename];
+        if(array_key_exists($tablename,$this->_config['keymap'])){
+            $this->info['primaryKey']=$this->_config['keymap'][$tablename];
         }
         return $this;
     }
@@ -343,7 +338,7 @@ class Table implements TableInterface {
     public function all($id = 0)
     {
         $sql=$this->sqlConcat($id);
-        $this->record($sql,"all");
+
         if(strlen($this->cond['key'])==0)
             $res=$this->db->getAll($sql);
         else
@@ -360,7 +355,7 @@ class Table implements TableInterface {
     {
         // TODO: Implement row() method.
         $sql=$this->sqlConcat($id);
-        $this->record($sql,"row");
+
         $res=$this->db->getRow($sql);
         return $res;
     }
@@ -373,7 +368,7 @@ class Table implements TableInterface {
     {
         // TODO: Implement col() method.
         $sql=$this->sqlConcat($id);
-        $this->record($sql,"col");
+       
         $res=$this->db->getCol($sql);
         return $res;
     }
@@ -386,7 +381,7 @@ class Table implements TableInterface {
     {
         // TODO: Implement one() method.
         $sql=$this->sqlConcat($id);
-        $this->record($sql,"one");
+
         $res=$this->db->getOne($sql);
         return $res;
     }
@@ -400,7 +395,7 @@ class Table implements TableInterface {
     {
         // TODO: Implement map() method.
         $sql=$this->sqlConcat($id);
-        $this->record($sql,"map");
+
         $res=$this->db->getMap($sql);
         return $res;
     }
@@ -430,10 +425,10 @@ class Table implements TableInterface {
      * @param string $functionname
      */
     private function record($sql="",$functionname="") {
-        if($this->_config['queryrecord']){
+        /*if($this->_config['queryrecord']){
             $this->log->pushHandler(new StreamHandler( '../log/dblog.log', Logger::INFO));
             $this->log->addInfo("query: ".$functionname."; sql: ".$sql);
-        }
+        }*/
         if($this->_config['increment']){
 
         }
